@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - Marketplace Event</title>
+	<meta name="description" content="Temukan konser, konferensi, workshop, dan pengalaman seru lainnya dalam satu tempat." />
+	<link rel="stylesheet" href="/homepage/style.css" />
+</head>
+<body>
+	<div class="bg-orb orb-1"></div>
+	<div class="bg-orb orb-2"></div>
+
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<div class="brand-wrap">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/image/icon.png" alt="Logo Ticketa" class="brand-logo" />
+				<span class="brand-name">TICKETA</span>
+			</a>
+			<span class="brand-divider"></span>
+			<a class="brand-home" href="/">Home</a>
+		</div>
+
+		<nav class="main-nav" aria-label="Navigasi utama">
+			<a class="active" href="#">Home</a>
+			<a href="#eventNews">Explore Events</a>
+			<a href="#eventCategories">Categories</a>
+			<a href="#">Become an Organizer</a>
+		</nav>
+
+		<div class="top-actions">
+			<a class="login-btn" id="loginBtn" href="/loginpage/index.html">Login / Register</a>
+		</div>
+	</header>
+
+	<!-- ─── HERO ─── -->
+	<section class="hero" id="hero">
+		<h1>Search Events...</h1>
+		<div class="search-bar">
+			<div class="search-location-wrap">
+				<select id="locationFilter" aria-label="Pilih lokasi">
+					<option value="all">Semua Lokasi</option>
+				</select>
+			</div>
+			<input id="searchInput" type="search" placeholder="Search events, concerts, conferences..." autocomplete="off" />
+		</div>
+		<button class="search-submit" id="searchBtn" type="button">Cari Event</button>
+	</section>
+
+	<!-- ─── CONTENT (GRAY BG) ─── -->
+	<main class="content-area">
+
+		<!-- Event News Section -->
+		<section class="section" id="eventNews">
+			<h2 class="section-title">Event News Section</h2>
+			<div class="carousel-wrap">
+				<button class="carousel-arrow arrow-left" id="carouselPrev" type="button" aria-label="Sebelumnya">&lsaquo;</button>
+				<div class="carousel-track" id="carouselTrack">
+					<!-- JS fills cards -->
+				</div>
+				<button class="carousel-arrow arrow-right" id="carouselNext" type="button" aria-label="Selanjutnya">&rsaquo;</button>
+			</div>
+		</section>
+
+		<!-- Event By Categories -->
+		<section class="section" id="eventCategories">
+			<h2 class="section-title">Event By Categories</h2>
+			<div class="chip-row" id="chipRow">
+				<!-- JS fills chips -->
+			</div>
+		</section>
+
+		<!-- Tabs + Event Grid -->
+		<section class="section" id="eventListing">
+			<div class="tab-bar">
+				<button class="tab active" data-tab="top" type="button">Top Events</button>
+				<button class="tab" data-tab="category" type="button">Events by Category</button>
+			</div>
+			<div id="eventGrid" class="event-grid">
+				<!-- JS fills cards -->
+			</div>
+			<p id="emptyState" class="empty-state" hidden>Tidak ada event yang cocok dengan filter saat ini.</p>
+		</section>
+
+	</main>
+
+	<script src="/homepage/script.js" defer></script>
+</body>
+</html>

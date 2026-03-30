@@ -286,7 +286,125 @@ document.querySelectorAll('.main-nav a[href^="#"]').forEach((link) => {
 	});
 });
 
+/* ─── Check Auth State ─── */
+function checkAuth() {
+	const token = localStorage.getItem("token");
+	const userStr = localStorage.getItem("username");
+	const topActions = document.querySelector(".top-actions");
+
+	if (token && userStr && topActions) {
+		let userName = "User";
+		try {
+			const parsed = JSON.parse(userStr);
+			// Karena di localstorage isinya langsung string nama ("Fronli"), kita tangkap string-nya
+			userName = typeof parsed === "string" ? parsed : (parsed.name || "User");
+		} catch (e) {
+            // Jaga-jaga kalau stringnya tidak menggunakan JSON.stringify()
+            userName = userStr;
+        }
+
+		// Gunakan inline styling menyesuaikan screenshot 
+		topActions.innerHTML = `
+			<div style="display: flex; align-items: center; gap: 24px;">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer; color: var(--text);">
+					<circle cx="11" cy="11" r="8"></circle>
+					<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+				</svg>
+				<div style="position: relative;" id="userProfileWrap">
+					<div style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text); font-weight: 700; font-size: 0.85rem;" onclick="toggleDropdown(event)">
+						${userName}'s Profile
+						<svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 2px;">
+							<path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						<div style="width: 32px; height: 32px; border-radius: 50%; background: #e0e0e0; margin-left: 6px;"></div>
+					</div>
+					
+					<div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); min-width: 150px; z-index: 100; overflow: hidden;">
+						<a href="#" style="display: block; padding: 12px 18px; color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 700; border-bottom: 1px solid var(--line); background: #fff;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">My Ticket</a>
+						<a href="#" onclick="logout(event)" style="display: block; padding: 12px 18px; color: #ef4444; text-decoration: none; font-size: 0.85rem; font-weight: 700; background: #fff;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='#fff'">Logout</a>
+					</div>
+				</div>
+			</div>
+		`;
+	}
+}
+
+window.toggleDropdown = function(e) {
+	e.stopPropagation();
+	const menu = document.getElementById("userDropdown");
+	if (menu) {
+		menu.style.display = menu.style.display === "none" ? "block" : "none";
+	}
+}
+
+document.addEventListener("click", () => {
+	const menu = document.getElementById("userDropdown");
+	if (menu) menu.style.display = "none";
+});
+
+window.logout = function(e) {
+	if(e) e.preventDefault();
+	
+	const overlay = document.createElement("div");
+	overlay.id = "logout-confirm-overlay";
+	Object.assign(overlay.style, {
+		position: "fixed", top: "0", left: "0", width: "100%", height: "100%",
+		backgroundColor: "rgba(0, 0, 0, 0.4)", zIndex: "9999",
+		display: "flex", alignItems: "center", justifyContent: "center",
+		backdropFilter: "blur(3px)", opacity: "0", transition: "opacity 0.2s ease"
+	});
+
+	const modal = document.createElement("div");
+	Object.assign(modal.style, {
+		background: "#fff", padding: "32px 24px", borderRadius: "16px",
+		boxShadow: "0 10px 25px rgba(0,0,0,0.15)", textAlign: "center",
+		transform: "scale(0.95)", transition: "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+		maxWidth: "340px", width: "90%", border: "1px solid var(--line)",
+		fontFamily: "inherit"
+	});
+
+	modal.innerHTML = `
+		<div style="margin-bottom: 20px; color: #ef4444;">
+			<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
+				<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+				<polyline points="16 17 21 12 16 7"></polyline>
+				<line x1="21" y1="12" x2="9" y2="12"></line>
+			</svg>
+		</div>
+		<h3 style="margin: 0 0 12px; font-size: 1.25rem; font-weight: 700; color: var(--text);">Konfirmasi Logout</h3>
+		<p style="margin: 0 0 28px; color: var(--muted); font-size: 0.95rem; line-height: 1.5;">Apakah Anda yakin ingin keluar dari sesi saat ini?</p>
+		<div style="display: flex; gap: 12px; justify-content: center;">
+			<button id="cancel-logout" style="padding: 12px 20px; border: 1px solid var(--line); background: white; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: var(--text); flex: 1; transition: background 0.2s;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='white'">Batal</button>
+			<button id="confirm-logout" style="padding: 12px 20px; border: none; background: #ef4444; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: white; flex: 1; transition: background 0.2s;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">Ya, Keluar</button>
+		</div>
+	`;
+
+	overlay.appendChild(modal);
+	document.body.appendChild(overlay);
+
+	requestAnimationFrame(() => {
+		overlay.style.opacity = "1";
+		modal.style.transform = "scale(1)";
+	});
+
+	const close = () => {
+		overlay.style.opacity = "0";
+		modal.style.transform = "scale(0.95)";
+		setTimeout(() => overlay.remove(), 200);
+	};
+
+	document.getElementById("cancel-logout").addEventListener("click", close);
+	document.getElementById("confirm-logout").addEventListener("click", () => {
+		localStorage.removeItem("token");
+		localStorage.removeItem("username");
+		localStorage.removeItem("email");
+		localStorage.removeItem("role");
+		window.location.reload();
+	});
+}
+
 /* ─── Init ─── */
 buildCarousel();
 buildChips();
 renderGrid();
+checkAuth();

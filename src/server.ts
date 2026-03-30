@@ -1,6 +1,7 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import path from 'node:path';
+import cors from 'cors';
 import { fileURLToPath } from 'node:url';
 import 'dotenv/config';
 
@@ -10,6 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DB_URL = process.env.DATABASE_URL;
 
+app.use(cors({ origin:['http://localhost:3000', 'http://127.0.0.1:3000'] }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -17,6 +19,10 @@ app.get('/', (req: Request, res: Response)=>{
     res.sendFile(path.join(__dirname, 'public', 'homepage', 'index.html'));
 });
 
+
+//Routes 
+import userRoutes from './routes/userRoutes.js';
+app.use('/auth', userRoutes);
 
 
 //Testing API

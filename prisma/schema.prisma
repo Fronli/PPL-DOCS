@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//////////////////////////////////////////////////////
+// ENUMS
+//////////////////////////////////////////////////////
+
+enum UserRole {
+  USER
+  EO
+  ADMIN
+}
+
+enum EOApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  EXPIRED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+}
+
+//////////////////////////////////////////////////////
+// USER
+//////////////////////////////////////////////////////
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+
+  password  String?  // nullable untuk Google OAuth login atau singup
+  googleId  String?  @unique
+
+  role      UserRole @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders        Order[]
+  events        Event[]      @relation("EOEvents")
+  eoApplication EOApplication?
+}
+
+//////////////////////////////////////////////////////
+// EO APPLICATION
+//////////////////////////////////////////////////////
+
+model EOApplication {
+  id               Int                 @id @default(autoincrement())
+  userId           Int                 @unique
+  organizationName String
+  description      String?
+
+  status           EOApplicationStatus @default(PENDING)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+//////////////////////////////////////////////////////
+// JENIS-JENSI EVENTNYA
+//////////////////////////////////////////////////////
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  location    String
+  eventDate   DateTime
+
+  posterUrl   String?
+  isPublished Boolean @default(false)
+
+  totalSeats  Int
+
+  organizerId Int
+  organizer   User @relation("EOEvents", fields: [organizerId], references: [id])
+
+  ticketTypes TicketType[]
+  tickets     Ticket[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//////////////////////////////////////////////////////
+// 3 TICKET TYPES (VIP, VIP+, REGULAR)
+//////////////////////////////////////////////////////
+
+model TicketType {
+  id      Int     @id @default(autoincrement())
+  name    String
+  price   Float
+  quota   Int
+
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id])
+
+  tickets Ticket[]
+}
+
+//////////////////////////////////////////////////////
+// ORDER (TRANSACTION)
+//////////////////////////////////////////////////////
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  status    OrderStatus @default(PENDING)
+
+  total     Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id])
+  tickets Ticket[]
+  payment Payment?
+}
+
+//////////////////////////////////////////////////////
+// PAYMENT (SIMULATION DOANG)
+//////////////////////////////////////////////////////
+
+model Payment {
+  id        Int           @id @default(autoincrement())
+  orderId   Int           @unique
+
+  method    String?
+  status    PaymentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+//////////////////////////////////////////////////////
+// TICKET
+//////////////////////////////////////////////////////
+
+model Ticket {
+  id          Int          @id @default(autoincrement())
+
+  seatNumber  String
+  qrCode      String       @unique
+
+  status      TicketStatus @default(VALID)
+
+  eventId     Int
+  event       Event @relation(fields: [eventId], references: [id])
+
+  ticketTypeId Int
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+
+  orderId     Int
+  order       Order @relation(fields: [orderId], references: [id])
+
+  createdAt   DateTime @default(now())
+
+  @@unique([eventId, seatNumber])
+}

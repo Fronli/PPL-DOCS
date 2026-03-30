@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Login - Ticketa</title>
+	<title>Register - Ticketa</title>
 	<link rel="stylesheet" href="/loginpage/style.css" />
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -17,6 +17,7 @@
 	<header class="topbar">
 		<div class="brand-wrap">
 			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<!-- Gunakan SVG/icon inline atau image fallback -->
 				<img src="/image/icon.png" alt="Logo Ticketa" class="brand-logo"
 					onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzBGNzY2RSI+PHBhdGggZD0iTTEyIDJMMiAxMmgydjhWMiBoNHYtOGgybDEwLTg='" />
 				<span class="brand-name">TICKETA</span>
@@ -27,17 +28,21 @@
 			<a href="/#eventNews">Events</a>
 		</nav>
 		<div class="top-actions">
-			<a class="login-btn outline" href="/auth/signup">Register</a>
+			<a class="login-btn outline" href="/auth/login">Login</a>
 		</div>
 	</header>
 
 	<main class="auth-wrapper">
 		<div class="auth-card">
 			<div class="auth-header">
-				<h2>Login</h2>
+				<h2>Create Account</h2>
 			</div>
 
 			<form action="#" method="POST" class="auth-form">
+				<div class="form-group">
+					<label for="name">Full Name</label>
+					<input type="text" id="name" name="name" required />
+				</div>
 				<div class="form-group">
 					<label for="email">Email</label>
 					<input type="email" id="email" name="email" required />
@@ -46,39 +51,39 @@
 					<label for="password">Password</label>
 					<input type="password" id="password" name="password" required />
 				</div>
-				<button type="submit" class="btn-primary">Login</button>
+				<button type="submit" class="btn-primary">Create Account</button>
 			</form>
 
 			<div class="divider">
 				<span>OR</span>
 			</div>
 
-				<div id="g_id_onload"
-					data-client_id="688387656293-h8cg8vh14qvosdls2fld7ubec10vlt8k.apps.googleusercontent.com"
-					data-context="signin"
-					data-ux_mode="popup"
-					data-callback="handleGoogleResponse"
-					data-auto_prompt="false">
-				</div>
+			<div id="g_id_onload"
+				data-client_id="688387656293-h8cg8vh14qvosdls2fld7ubec10vlt8k.apps.googleusercontent.com"
+				data-context="signup"
+				data-ux_mode="popup"
+				data-callback="handleGoogleResponse"
+				data-auto_prompt="false">
+			</div>
 
-				<div style="width: 100%; display: flex; justify-content: center;">
-					<div class="g_id_signin"
-						data-type="standard"
-						data-shape="rectangular"
-						data-theme="outline"
-						data-text="continue_with"
-						data-size="large"
-						data-width="400"
-						data-logo_alignment="center">
-					</div>
+			<div style="width: 100%; display: flex; justify-content: center;">
+				<div class="g_id_signin"
+					data-type="standard"
+					data-shape="rectangular"
+					data-theme="outline"
+					data-text="continue_with"
+					data-size="large"
+					data-width="400"
+					data-logo_alignment="center">
 				</div>
+			</div>
 
 			<p class="auth-footer">
-				Don't have an account? <a href="/auth/signup">Register</a>
+				Already have an account? <a href="/auth/login">Login</a>
 			</p>
 		</div>
 	</main>
-	<script src="/loginpage/script.js"></script>
+	<script src="/registerpage/script.js"></script>
 </body>
 
 </html>

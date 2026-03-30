@@ -31,49 +31,45 @@ function showNotification(message, type = "error") {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	const loginForm = document.querySelector(".auth-form");
+	const registerForm = document.querySelector(".auth-form");
 
-	if (loginForm) {
-		loginForm.addEventListener("submit", async (e) => {
+	if (registerForm) {
+		registerForm.addEventListener("submit", async (e) => {
 			e.preventDefault();
 			
+			const name = document.getElementById("name").value;
 			const email = document.getElementById("email").value;
 			const password = document.getElementById("password").value;
-			const submitBtn = loginForm.querySelector("button[type='submit']");
+			const submitBtn = registerForm.querySelector("button[type='submit']");
 			const originalText = submitBtn.textContent;
 			
 			submitBtn.disabled = true;
 			submitBtn.textContent = "Loading...";
 
 			try {
-				const response = await fetch("/auth/login", {
+				const endpoint = "/auth/signup";
+
+				const response = await fetch(endpoint, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
 					},
-					body: JSON.stringify({ email, password })
+					body: JSON.stringify({ name, email, password })
 				});
 
 				const data = await response.json().catch(() => ({}));
 
 				if (response.ok) {
-					// Berhasil login
-					localStorage.setItem("token", data.token);
-					localStorage.setItem("username", JSON.stringify(data.user.name));
-                    localStorage.setItem("email", JSON.stringify(data.user.email));
-					localStorage.setItem("role", JSON.stringify(data.user.role));
-                    showNotification(data.message || "Berhasil login!", "success");
-					
+					showNotification(data.message || "Berhasil membuat akun! Silakan login.", "success");
 					setTimeout(() => {
-						window.location.href = "/"; // Redirect ke homepage
-					}, 1000);
+						window.location.href = "/auth/login"; // Redirect ke halaman login
+					}, 1500);
 				} else {
-					// Error login
-					showNotification(data.message || "Invalid email atau password", "error");
+					showNotification(data.message || "Invalid. Gagal mendaftar.", "error");
 				}
 			} catch (error) {
-				console.error("Login Error:", error);
-				showNotification("Server Error. Silakan coba lagi.", "error");
+				console.error("Signup Error:", error);
+				showNotification("Server Error. Silakan coba lagi nanti.", "error");
 			} finally {
 				submitBtn.disabled = false;
 				submitBtn.textContent = originalText;
@@ -98,7 +94,7 @@ window.handleGoogleResponse = async function(response) {
 			localStorage.setItem("username", JSON.stringify(data.user.name));
 			localStorage.setItem("email", JSON.stringify(data.user.email));
 			localStorage.setItem("role", JSON.stringify(data.user.role));
-			showNotification(data.message || "Berhasil login dengan Google!", "success");
+			showNotification(data.message || "Berhasil mendaftar/login dengan Google!", "success");
 			setTimeout(() => {
 				window.location.href = "/";
 			}, 1000);

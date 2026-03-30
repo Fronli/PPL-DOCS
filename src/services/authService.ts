@@ -1,4 +1,4 @@
-import prisma from '../db/prisma.js';
+import prisma from '../db/primsa.js';
 import brcypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { OAuth2Client } from "google-auth-library"
@@ -27,6 +27,7 @@ export const AuthServices = {
         user: {
             name: user.name,
             email: user.email,
+            role: user.role,
         },
         };
     },

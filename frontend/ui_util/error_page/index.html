@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Ticketa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-container">
+            <div class="error-card">
+                <div class="icon-container" id="iconContainer">
+                    <span style="font-size: 32px;" id="errorIcon">📡</span>
+                </div>
+                
+                <h1 id="errorTitle">Connection Lost</h1>
+                <p id="errorSubtitle">Oops! It looks like your device has lost its internet connection. Make sure your Wi-Fi or mobile data is on.</p>
+                
+                <div class="status-pill" id="statusPill">
+                    <span class="dot"></span>
+                    <span id="statusText">Trying to reconnect...</span>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="window.history.back()">Go Back</button>
+                    <button class="btn btn-primary" onclick="window.location.href='/'">Home</button>
+                </div>
+
+                <p class="footer-info" id="footerInfo">The system will reload automatically when the connection is stable.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Ticketa</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="adminpage/style.css">
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="/" class="logo-text" style="text-decoration: none;">Ticketa</a>
+                </div>
+                <div class="divider"></div>
+                <div class="page-title">Admin Console Control</div>
+            </div>
+            
+            <div class="nav-right" id="topActions">
+                <!-- User profile injected by script.js -->
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-container">
+        
+        <!-- MARKETPLACE PERFORMANCE -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>MARKETPLACE PERFORMANCE</h2>
+                <div class="line"></div>
+            </div>
+            
+            <div class="stats-grid">
+                <!-- Card 1 -->
+                <div class="stat-card" style="border-left-color: #1a237e;">
+                    <div class="stat-title">TOTAL ACTIVE EVENTS</div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-trend positive">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l7-7 7 7M12 19V5"/></svg>
+                        12% from last month
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="stat-card" style="border-left-color: #f57c00;">
+                    <div class="stat-title">REGISTERED USERS</div>
+                    <div class="stat-value">1,248</div>
+                    <div class="stat-trend positive">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l7-7 7 7M12 19V5"/></svg>
+                        5.4% new signups
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="stat-card" style="border-left-color: #ffb300;">
+                    <div class="stat-title">GROSS TICKET SALES</div>
+                    <div class="stat-value">3,502</div>
+                    <div class="stat-trend info">
+                        System Volume: High
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORGANIZER APPROVAL QUEUE -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>ORGANIZER APPROVAL QUEUE</h2>
+                <div class="line"></div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>APPLICANT</th>
+                            <th>ORGANIZATION DETAILS</th>
+                            <th>VERIFICATION NOTE</th>
+                            <th>REVIEW ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="applicant-info">
+                                    <div class="applicant-name">Darren Keith Ko</div>
+                                    <div class="applicant-email">darren@yogaclass.com</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">Yoga Festival</span>
+                            </td>
+                            <td>
+                                <span class="note-text">Requesting access for Yoga Bali Enthusiast series 2026.</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-primary">Approve EO</button>
+                                    <button class="btn btn-outline">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="applicant-info">
+                                    <div class="applicant-name">Elizabeth Florence</div>
+                                    <div class="applicant-email">lisa@techexpo.io</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">Global Tech Expo</span>
+                            </td>
+                            <td>
+                                <span class="note-text">Specializing in B2B tech conferences and workshops.</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-primary">Approve EO</button>
+                                    <button class="btn btn-outline">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- LIVE CONTENT MANAGEMENT -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>LIVE CONTENT MANAGEMENT</h2>
+                <div class="line"></div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>PUBLISHED EVENT</th>
+                            <th>CURRENT STATUS</th>
+                            <th>AUDIENCE</th>
+                            <th>MANAGEMENT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="event-info">
+                                    <div class="event-name">UPH Music Festival 2026</div>
+                                    <div class="event-id">ID: #EVT-99203</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-green">LIVE & SELLING</span>
+                            </td>
+                            <td>
+                                <span class="audience-text">8,240 Sold</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-ghost">Inspect</button>
+                                    <button class="btn btn-outline-danger">Suspend Event</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="event-info">
+                                    <div class="event-name">Web3 Innovation Summit</div>
+                                    <div class="event-id">ID: #EVT-44120</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-yellow">PENDING REVIEW</span>
+                            </td>
+                            <td>
+                                <span class="audience-text">-</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-ghost">Inspect</button>
+                                    <button class="btn btn-outline-danger">Take Down</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="adminpage/script.js"></script>
+</body>
+</html>

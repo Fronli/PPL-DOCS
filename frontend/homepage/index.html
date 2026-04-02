@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - Discover Events</title>
+	<meta name="description"
+		content="Find and book tickets for the best concerts, conferences, and workshops happening in your city." />
+	<link rel="stylesheet" href="homepage/style.css" />
+</head>
+
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<div class="brand-wrap">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<span class="brand-name">Ticketa</span>
+			</a>
+		</div>
+
+		<nav class="main-nav" aria-label="Navigasi utama">
+			<a class="active" href="#">Home</a>
+			<a href="#eventCategories">Explore Events</a>
+			<a href="#organizerCTA" id="organizerNavBtn">Become an Organizer</a>
+		</nav>
+
+		<div class="top-actions" id="topActions">
+			<a class="login-link" id="loginBtn" href="/auth/login">Log In</a>
+			<a class="signup-btn" id="signupBtn" href="/auth/signup">Sign Up</a>
+		</div>
+	</header>
+
+	<!-- ─── HERO ─── -->
+	<section class="hero" id="hero">
+		<div class="hero-overlay"></div>
+		<div class="hero-content">
+			<h1>Discover Unforgettable<br>Events Around You</h1>
+			<p>Find and book tickets for the best concerts, conferences, and<br>workshops happening in your city.</p>
+			<div class="search-bar">
+				<input id="searchInput" type="search" placeholder="Search events, concerts, conferences..."
+					autocomplete="off" />
+				<button class="search-submit" id="searchBtn" type="button">Search</button>
+			</div>
+		</div>
+	</section>
+
+	<main class="content-area">
+
+		<!-- Event By Categories -->
+		<section class="section" id="eventCategories">
+			<h2 class="section-title title-underline">Browse Events by Category</h2>
+			<div class="chip-row" id="chipRow">
+				<!-- JS fills chips -->
+			</div>
+		</section>
+
+		<!-- Tabs + Event Grid -->
+		<section class="section" id="eventListing">
+			<div class="tab-bar">
+				<button class="tab active" data-tab="top" type="button">Top Events</button>
+				<button class="tab" data-tab="category" type="button">Events by Category</button>
+			</div>
+			<div id="eventGrid" class="event-grid">
+				<!-- JS fills cards -->
+			</div>
+			<p id="emptyState" class="empty-state" hidden>No events matched your search.</p>
+
+			<div class="explore-all-wrap">
+				<a href="#eventCategories" class="explore-all-btn">Explore All Events &rarr;</a>
+			</div>
+		</section>
+
+		<!-- Become Organizer CTA -->
+		<section class="section" id="organizerCTA">
+			<div class="organizer-banner">
+				<h2>Become an Event Organizer</h2>
+				<p>Host your own events, reach a wider audience, and manage ticket<br>sales effortlessly with our
+					dedicated organizer tools.</p>
+				<a href="#" class="apply-organizer-btn" id="bottomOrganizerBtn">Apply as Organizer</a>
+			</div>
+		</section>
+
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-col brand-col">
+				<span class="footer-brand">Ticketa</span>
+				<p>Contact Us:</p>
+				<p>Email: ticketa@gmail.com</p>
+				<p>Phone: +62 8124 0031</p>
+				<p>Address: Menara Matahari, Lt. 15, Jl. City</p>
+			</div>
+			<div class="footer-col">
+				<h4>Platform</h4>
+				<a href="#">Become an Organizer</a>
+				<a href="#">Browse Categories</a>
+				<a href="#">Host an Event</a>
+			</div>
+			<div class="footer-col">
+				<h4>Support & Legal</h4>
+				<a href="#">Help Center</a>
+				<a href="#">Contact Support</a>
+				<a href="#">Privacy Policy</a>
+				<a href="#">Terms of Service</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script src="homepage/script.js" defer></script>
+</body>
+
+</html>

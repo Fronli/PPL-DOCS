@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,54 +7,49 @@
 	<link rel="stylesheet" href="/loginpage/style.css" />
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 <body>
-	<div class="bg-orb orb-1"></div>
-	<div class="bg-orb orb-2"></div>
-
 	<!-- Topbar -->
 	<header class="topbar">
 		<div class="brand-wrap">
 			<a class="brand" href="/" aria-label="Beranda Ticketa">
-				<!-- Gunakan SVG/icon inline atau image fallback -->
-				<img src="/image/icon.png" alt="Logo Ticketa" class="brand-logo"
-					onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzBGNzY2RSI+PHBhdGggZD0iTTEyIDJMMiAxMmgydjhWMiBoNHYtOGgybDEwLTg='" />
-				<span class="brand-name">TICKETA</span>
+				<span class="brand-name">Ticketa</span>
 			</a>
 		</div>
 		<nav class="main-nav">
 			<a href="/">Home</a>
-			<a href="/#eventNews">Events</a>
+			<a href="/#eventCategories">Explore Events</a>
+			<a href="/#organizerCTA">Become an Organizer</a>
 		</nav>
 		<div class="top-actions">
-			<a class="login-btn outline" href="/auth/login">Login</a>
+			<a class="login-link" href="/auth/login">Log In</a>
 		</div>
 	</header>
 
 	<main class="auth-wrapper">
 		<div class="auth-card">
 			<div class="auth-header">
-				<h2>Create Account</h2>
+				<h2>Get Started</h2>
+				<p>Create an account to book your next experience.</p>
 			</div>
 
 			<form action="#" method="POST" class="auth-form">
 				<div class="form-group">
 					<label for="name">Full Name</label>
-					<input type="text" id="name" name="name" required />
+					<input type="text" id="name" name="name" placeholder="e.g. Alex Johnson" required />
 				</div>
 				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" id="email" name="email" required />
+					<label for="email">Email Address</label>
+					<input type="email" id="email" name="email" placeholder="name@example.com" required />
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" id="password" name="password" required />
+					<input type="password" id="password" name="password" placeholder="At least 8 characters" required />
 				</div>
-				<button type="submit" class="btn-primary">Create Account</button>
+				<button type="submit" class="btn-primary">Create My Account</button>
 			</form>
 
 			<div class="divider">
-				<span>OR</span>
+				<span>OR REGISTER WITH</span>
 			</div>
 
 			<div id="g_id_onload"
@@ -66,24 +60,23 @@
 				data-auto_prompt="false">
 			</div>
 
-			<div style="width: 100%; display: flex; justify-content: center;">
+			<div class="google-btn-wrapper">
 				<div class="g_id_signin"
 					data-type="standard"
 					data-shape="rectangular"
 					data-theme="outline"
-					data-text="continue_with"
+					data-text="signup_with"
 					data-size="large"
-					data-width="400"
+					data-width="360"
 					data-logo_alignment="center">
 				</div>
 			</div>
 
 			<p class="auth-footer">
-				Already have an account? <a href="/auth/login">Login</a>
+				Already have an account? <a href="/auth/login">Log in here</a>
 			</p>
 		</div>
 	</main>
 	<script src="/registerpage/script.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Login - Ticketa</title>
+	<link rel="stylesheet" href="/loginpage/style.css" />
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+	<!-- Topbar -->
+	<header class="topbar">
+		<div class="brand-wrap">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<span class="brand-name">Ticketa</span>
+			</a>
+		</div>
+		<nav class="main-nav">
+			<a href="/">Home</a>
+			<a href="/#eventCategories">Explore Events</a>
+			<a href="/#organizerCTA">Become an Organizer</a>
+		</nav>
+		<div class="top-actions">
+			<a class="signup-btn" href="/auth/signup">Sign Up</a>
+		</div>
+	</header>
+
+	<main class="auth-wrapper">
+		<div class="auth-card">
+			<div class="auth-header">
+				<h2>Welcome Back</h2>
+				<p>Login to manage your tickets and events</p>
+			</div>
+
+			<form action="#" method="POST" class="auth-form">
+				<div class="form-group">
+					<label for="email">EMAIL ADDRESS</label>
+					<input type="email" id="email" name="email" placeholder="name@email.com" required />
+				</div>
+				<div class="form-group">
+					<label for="password">PASSWORD</label>
+					<input type="password" id="password" name="password" placeholder="••••••••" required />
+				</div>
+				<button type="submit" class="btn-primary">Sign In</button>
+			</form>
+
+			<div class="divider">
+				<span>OR CONTINUE WITH</span>
+			</div>
+
+			<div id="g_id_onload"
+				data-client_id="688387656293-h8cg8vh14qvosdls2fld7ubec10vlt8k.apps.googleusercontent.com"
+				data-context="signin" data-ux_mode="popup" data-callback="handleGoogleResponse"
+				data-auto_prompt="false">
+			</div>
+
+			<div class="google-btn-wrapper">
+				<div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+					data-text="continue_with" data-size="large" data-width="360" data-logo_alignment="center">
+				</div>
+			</div>
+
+			<p class="auth-footer">
+				New to Ticketa? <a href="/auth/signup">Create an account</a>
+			</p>
+		</div>
+	</main>
+	<script src="/loginpage/script.js"></script>
+</body>
+
+</html>

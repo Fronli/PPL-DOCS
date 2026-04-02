@@ -17,9 +17,9 @@ export const AuthServices = {
         if (!valid) throw new Error("invalid");
 
         const token = jwt.sign(
-        { id: user.id },
+        { id: user.id, role: user.role },
         JWT_SECRET!,
-        { expiresIn: "1h" }
+        { expiresIn: "1m" }
         );
 
         return {
@@ -48,7 +48,7 @@ export const AuthServices = {
         const ticket = await googleClient.verifyIdToken({
             idToken,
             audience: GOOGLE_CLIENT_ID as string,
-        });
+        }); 
 
         const payload = ticket.getPayload();
         if (!payload) throw new Error("Invalid Google token");
@@ -87,7 +87,7 @@ export const AuthServices = {
 
         // 5. Generate JWT
         const token = jwt.sign(
-            { id: user.id },
+            { id: user.id, role: user.role },
             JWT_SECRET!,
             { expiresIn: "1h" }
         );
@@ -97,6 +97,7 @@ export const AuthServices = {
             user: {
                 name: user.name,
                 email: user.email,
+                role: user.role,
             },
         };
     }

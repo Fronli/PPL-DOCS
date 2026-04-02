@@ -6,14 +6,14 @@ import {getErrorMessage} from '../services/reuseService.js';
 import { AuthServices } from '../services/authService.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.join(path.dirname(__filename), '../../../');
 
 export const getLoginStaticFile = async (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../' , 'public', 'loginpage', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'loginpage', 'index.html'));
 }
 
 export const getSignupStaticFile = async (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../' , 'public', 'registerpage', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'registerpage', 'index.html'));
 }
 
 export  const register = async (req: Request, res: Response) => {

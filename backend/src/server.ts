@@ -19,22 +19,21 @@ app.use(express.static(path.join(__dirname, 'backend', 'src' , 'public')));
 app.get('/', (req: Request, res: Response)=>{
     res.sendFile(path.join(__dirname, 'frontend', 'homepage', 'index.html'));
 });
-console.log(__dirname);
+
 
 //Routes 
-import userRoutes from './routes/authRoutes.js';
+import eventRoutes from './routes/event.routes.js';
+app.use('/event', eventRoutes);
+
+import userRoutes from './routes/auth.routes.js';
 app.use('/auth', userRoutes);
 
-import eoRoutes from './routes/eoRouter.js';
+import eoRoutes from './routes/eo.routes.js';
 app.use('/eo', eoRoutes);
 
-import adminRoutes from './routes/adminRouter.js';
+import adminRoutes from './routes/admin.routes.js';
 app.use('/admin', adminRoutes);
 
-//Testing API
-app.get('/test', (req: Request, res: Response)=>{
-    res.send('kocak lu!');
-});
 
 
 app.listen(PORT, () => {

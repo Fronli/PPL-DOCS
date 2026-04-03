@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getLoginStaticFile, getSignupStaticFile, login, getAllUsers, register, googleLogin} from '../controllers/authController.js';
+import {getLoginStaticFile, getSignupStaticFile, login, getAllUsers, register, googleLogin} from '../controllers/auth.controller.js';
 const router = Router();
 
 router.get('/login', getLoginStaticFile);

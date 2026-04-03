@@ -2,8 +2,8 @@ import type {Request, Response} from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import prisma from '../db/primsa.js';
-import {getErrorMessage} from '../services/reuseService.js';
-import { AuthServices } from '../services/authService.js';
+import {getErrorMessage} from '../services/reuse.service.js';
+import { AuthServices } from '../services/auth.service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.join(path.dirname(__filename), '../../../');

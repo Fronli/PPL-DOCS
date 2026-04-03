@@ -47,27 +47,61 @@
 
 	<main class="content-area">
 
-		<!-- Event By Categories -->
+		<!-- Filter Section -->
 		<section class="section" id="eventCategories">
-			<h2 class="section-title title-underline">Browse Events by Category</h2>
-			<div class="chip-row" id="chipRow">
-				<!-- JS fills chips -->
+			<h2 class="section-title title-underline">Browse Events</h2>
+			<div class="filter-row">
+				<div class="filter-group">
+					<label for="filterCategory">Category</label>
+					<select id="filterCategory" class="filter-select">
+						<option value="">All Categories</option>
+						<option value="Music & Concert">Music & Concert</option>
+						<option value="Sports">Sports</option>
+						<option value="Business & Networking">Business & Networking</option>
+						<option value="Technology">Technology</option>
+						<option value="Education & Workshop">Education & Workshop</option>
+						<option value="Arts & Culture">Arts & Culture</option>
+						<option value="Food & Culinary">Food & Culinary</option>
+						<option value="Health & Wellness">Health & Wellness</option>
+						<option value="Entertainment">Entertainment</option>
+						<option value="Community & Social">Community & Social</option>
+						<option value="Religious">Religious</option>
+						<option value="Exhibition & Expo">Exhibition & Expo</option>
+					</select>
+				</div>
+				<div class="filter-group">
+					<label for="filterCity">City</label>
+					<select id="filterCity" class="filter-select">
+						<option value="">All Cities</option>
+						<option value="Jakarta">Jakarta</option>
+						<option value="Bandung">Bandung</option>
+						<option value="Surabaya">Surabaya</option>
+						<option value="Yogyakarta">Yogyakarta</option>
+						<option value="Bali">Bali</option>
+						<option value="Medan">Medan</option>
+						<option value="Semarang">Semarang</option>
+						<option value="Makassar">Makassar</option>
+						<option value="Palembang">Palembang</option>
+						<option value="Bekasi">Bekasi</option>
+						<option value="Tangerang">Tangerang</option>
+						<option value="Depok">Depok</option>
+						<option value="Bogor">Bogor</option>
+						<option value="Malang">Malang</option>
+						<option value="Online">Online</option>
+					</select>
+				</div>
 			</div>
 		</section>
 
-		<!-- Tabs + Event Grid -->
+		<!-- Event Grid -->
 		<section class="section" id="eventListing">
-			<div class="tab-bar">
-				<button class="tab active" data-tab="top" type="button">Top Events</button>
-				<button class="tab" data-tab="category" type="button">Events by Category</button>
-			</div>
 			<div id="eventGrid" class="event-grid">
 				<!-- JS fills cards -->
 			</div>
-			<p id="emptyState" class="empty-state" hidden>No events matched your search.</p>
+			<p id="emptyState" class="empty-state" hidden>No events matched your filter.</p>
 
-			<div class="explore-all-wrap">
-				<a href="#eventCategories" class="explore-all-btn">Explore All Events &rarr;</a>
+			<div class="explore-all-wrap" id="loadMoreWrap">
+				<button type="button" class="explore-all-btn" id="loadMoreBtn">Load More &darr;</button>
 			</div>
 		</section>
 

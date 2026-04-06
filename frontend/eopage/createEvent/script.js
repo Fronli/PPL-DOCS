@@ -136,20 +136,46 @@ function initUploadInteractions() {
 		uploadBox.style.background = "#F8FAFC";
 	});
 
+	const handleFile = (files) => {
+		if (files.length) {
+			fileInput.files = files;
+			const file = files[0];
+			
+			// Validasi tipe
+			if (!file.type.startsWith('image/')) {
+				alert('Mohon pilih file gambar (JPG/PNG).');
+				return;
+			}
+			
+			// Buat preview
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				uploadBox.innerHTML = `
+					<img src="${e.target.result}" alt="Preview" style="max-height: 200px; max-width: 100%; border-radius: 8px; object-fit: contain; margin-bottom: 12px;"/>
+					<div class="upload-title">${file.name}</div>
+					<div class="upload-subtitle" style="text-decoration: underline;">Click to change image</div>
+				`;
+				// Kembalikan elemen input file agar tidak hilang dari DOM
+				uploadBox.appendChild(fileInput);
+				uploadBox.style.padding = "24px";
+			};
+			reader.readAsDataURL(file);
+		}
+	};
+
 	uploadBox.addEventListener("drop", (e) => {
 		e.preventDefault();
 		uploadBox.style.borderColor = "#CBD5E1";
 		uploadBox.style.background = "#F8FAFC";
-
+		
 		if (e.dataTransfer.files.length) {
-			fileInput.files = e.dataTransfer.files;
-			alert("File terdeteksi: " + e.dataTransfer.files[0].name + " (Mocks)");
+			handleFile(e.dataTransfer.files);
 		}
 	});
 
 	fileInput.addEventListener("change", () => {
 		if (fileInput.files.length) {
-			alert("File dipilih: " + fileInput.files[0].name + " (Mocks)");
+			handleFile(fileInput.files);
 		}
 	});
 }
@@ -211,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			
 			const title = document.getElementById("eventTitle").value;
 			const description = document.getElementById("eventDescription").value;
+			const category = document.getElementById("eventCategory").value;
 			const eventDate = document.getElementById("eventDateTime").value;
 			const location = document.getElementById("eventLocation").value;
 			
@@ -229,6 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const formData = new FormData();
 			formData.append("title", title);
 			formData.append("description", description);
+			formData.append("category", category);
 			formData.append("eventDate", eventDate);
 			formData.append("location", location);
 			formData.append("totalSeats", totalSeats);
@@ -237,7 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				formData.append("poster", file);
 			}
 
-			console.log('Mempublish event secara riil ke DB untuk:', title);
+			// FormData tidak bisa di-console.log secara mentah, harus di-extract isinya:
+			console.log("Payload yang dikirim:", Object.fromEntries(formData.entries()));
+
 			const submitBtn = form.querySelector('button[type="submit"]');
 			const originalText = submitBtn.textContent;
 			submitBtn.textContent = 'Mempublish...';

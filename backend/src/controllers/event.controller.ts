@@ -16,7 +16,7 @@ export const getEvents = async (req: Request, res: Response) => {
     };
 
     if (category && typeof category === 'string') {
-        where.description = category;
+        where.category = category;
     }
 
     if (city && typeof city === 'string') {

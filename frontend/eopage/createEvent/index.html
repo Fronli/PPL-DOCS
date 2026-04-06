@@ -84,6 +84,25 @@
 						<textarea class="form-input" id="eventDescription" placeholder="Tell people what makes your event special..."></textarea>
 					</div>
 
+					<div class="form-group">
+						<label class="form-label">CATEGORY</label>
+						<select class="form-input" id="eventCategory" required style="cursor: pointer; appearance: auto;">
+							<option value="" disabled selected>Select Category</option>
+							<option value="Music & Concert">Music & Concert</option>
+							<option value="Sports">Sports</option>
+							<option value="Business & Networking">Business & Networking</option>
+							<option value="Technology">Technology</option>
+							<option value="Education & Workshop">Education & Workshop</option>
+							<option value="Arts & Culture">Arts & Culture</option>
+							<option value="Food & Culinary">Food & Culinary</option>
+							<option value="Health & Wellness">Health & Wellness</option>
+							<option value="Entertainment">Entertainment</option>
+							<option value="Community & Social">Community & Social</option>
+							<option value="Religious">Religious</option>
+							<option value="Exhibition & Expo">Exhibition & Expo</option>
+						</select>
+					</div>
+
 					<div class="form-row">
 						<div class="form-col">
 							<div class="form-group">
@@ -93,8 +112,25 @@
 						</div>
 						<div class="form-col">
 							<div class="form-group">
-								<label class="form-label">LOCATION / VENUE</label>
-								<input type="text" class="form-input" id="eventLocation" placeholder="e.g. Grand Ballroom, Hilton Hotel" required>
+								<label class="form-label">CITY / LOCATION</label>
+								<select class="form-input" id="eventLocation" required style="cursor: pointer; appearance: auto;">
+									<option value="" disabled selected>Select City</option>
+									<option value="Jakarta">Jakarta</option>
+									<option value="Bandung">Bandung</option>
+									<option value="Surabaya">Surabaya</option>
+									<option value="Yogyakarta">Yogyakarta</option>
+									<option value="Bali">Bali</option>
+									<option value="Medan">Medan</option>
+									<option value="Semarang">Semarang</option>
+									<option value="Makassar">Makassar</option>
+									<option value="Palembang">Palembang</option>
+									<option value="Bekasi">Bekasi</option>
+									<option value="Tangerang">Tangerang</option>
+									<option value="Depok">Depok</option>
+									<option value="Bogor">Bogor</option>
+									<option value="Malang">Malang</option>
+									<option value="Online">Online</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -155,7 +191,6 @@
 
 				<!-- Form Actions -->
 				<div class="form-actions">
-					<button type="button" class="btn-secondary" onclick="saveAsDraft()">Save as Draft</button>
 					<button type="submit" class="btn-primary">Publish Live Event</button>
 				</div>
 			</form>

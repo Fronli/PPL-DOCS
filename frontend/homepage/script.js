@@ -5,22 +5,8 @@ let isLoading = false;
 let activeCategory = "";
 let activeCity = "";
 
-// Cover images fallback
-const coverImages = {
-	"Music": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=400",
-	"Business": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=400",
-	"Sports": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=400",
-	"Technology": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=400",
-	"Education": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=400",
-	"Arts": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&q=80&w=400",
-	"Food": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=400",
-	"Health": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=400",
-	"Entertainment": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400",
-	"Community": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=400",
-	"Religious": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
-	"Exhibition": "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=400",
-	"default": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400"
-};
+// Default event poster
+const DEFAULT_POSTER = "/images/event/image_poster.jpg";
 
 /* ─── DOM Refs ─── */
 const searchInput = document.getElementById("searchInput");
@@ -50,22 +36,7 @@ function formatPrice(price) {
 }
 
 function getCoverImage(ev) {
-	if (ev.posterUrl) return ev.posterUrl;
-	const cat = (ev.category || "").toLowerCase();
-	const title = (ev.title || "").toLowerCase();
-	if (cat.includes("music") || title.includes("music") || title.includes("concert")) return coverImages["Music"];
-	if (cat.includes("business") || title.includes("business")) return coverImages["Business"];
-	if (cat.includes("sport") || title.includes("sport")) return coverImages["Sports"];
-	if (cat.includes("tech") || title.includes("tech")) return coverImages["Technology"];
-	if (cat.includes("education") || cat.includes("workshop") || title.includes("workshop")) return coverImages["Education"];
-	if (cat.includes("arts") || title.includes("art")) return coverImages["Arts"];
-	if (cat.includes("food") || title.includes("food") || title.includes("culinary")) return coverImages["Food"];
-	if (cat.includes("health") || title.includes("health") || title.includes("wellness")) return coverImages["Health"];
-	if (cat.includes("entertainment")) return coverImages["Entertainment"];
-	if (cat.includes("community") || title.includes("community")) return coverImages["Community"];
-	if (cat.includes("religious")) return coverImages["Religious"];
-	if (cat.includes("exhibition") || cat.includes("expo")) return coverImages["Exhibition"];
-	return coverImages["default"];
+	return ev.posterUrl || DEFAULT_POSTER;
 }
 
 /* ─── Fetch Events from API ─── */
@@ -164,7 +135,7 @@ function createCard(ev, delay = 0) {
 
 	let priceText = "Free";
 	if (ev.ticketTypes && ev.ticketTypes.length > 0) {
-		priceText = "Start from " + formatPrice(ev.ticketTypes[0].price);
+		priceText = formatPrice(ev.ticketTypes[0].price);
 	}
 
 	card.innerHTML = `
@@ -191,7 +162,7 @@ function createCard(ev, delay = 0) {
 				</div>
 			</div>
 			<div class="event-price">${priceText}</div>
-			<button type="button" class="event-btn">View Event</button>
+			<button type="button" class="event-btn">View Details</button>
 		</div>
 	`;
 	return card;
@@ -220,7 +191,7 @@ function checkAuth() {
 	const token = localStorage.getItem("token");
 	const userStr = localStorage.getItem("username");
 	const roleStr = localStorage.getItem("role");
-	const topActions = document.querySelector(".top-actions");
+	const topActions = document.getElementById("topActions");
 	const organizerNavBtn = document.getElementById("organizerNavBtn");
 	const bottomOrganizerBtn = document.getElementById("bottomOrganizerBtn");
 

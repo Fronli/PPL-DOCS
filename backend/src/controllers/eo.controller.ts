@@ -1,11 +1,78 @@
-import type {Request, Response} from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import type { Request, Response } from 'express';
 import prisma from '../db/primsa.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.join(path.dirname(__filename), '../../../');
+export const getEOEvent = async (req: Request, res: Response) => {
+    try {
+        const events = await prisma.event.findMany({
+            where: {
+                organizerId: req.user.id
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                ticketTypes: {
+                    orderBy: { price: 'asc' },
+                    take: 1
+                }
+            }
+        });
+        res.json(events);
+    } catch (error) {
+        console.error('Error fetching EO events:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
-export const getEOdashboard = async (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'index.html'));
+
+export const createEvent = async (req: Request, res: Response) => {
+    try {
+        const { title, description, category, eventDate, location, totalSeats } = req.body;
+        
+        let posterUrl = null;
+        if (req.file) {
+            // Path yang bisa diakses via static route backend
+            posterUrl = `/uploads/${req.file.filename}`;
+        }
+
+        if (!title || !description || !eventDate || !location) {
+            return res.status(400).json({ message: 'Mohon isi semua field wajib (Title, Description, Date, Location).' });
+        }
+
+        // Pecah location menjadi venue dan city
+        let venue = location;
+        let city = "Unknown";
+        if (location.includes(',')) {
+            const parts = location.split(',');
+            venue = parts[0].trim();
+            city = parts[1].trim();
+        } else {
+            // Jika tidak ada koma, asumsikan itu city atau venue
+            city = location;
+        }
+
+        const parsedDate = new Date(eventDate);
+        const parsedSeats = parseInt(totalSeats) || 0;
+
+        const event = await prisma.event.create({
+            data: {
+                title,
+                description,
+                category: category || 'General',
+                city,
+                venue,
+                eventDate: parsedDate,
+                posterUrl,
+                totalSeats: parsedSeats,
+                isPublished: true, // asumsikan langsung publish
+                organizerId: (req as any).user.id
+            }
+        });
+
+        res.status(201).json(event);
+    } catch (error) {
+        console.error('Error creating event:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
 }

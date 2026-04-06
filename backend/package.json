@@ -17,6 +17,7 @@
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.1.0",
     "@types/node": "^25.5.0",
     "@types/passport": "^1.0.17",
     "i": "^0.3.7",
@@ -33,6 +34,7 @@
     "express-session": "^1.19.0",
     "google-auth-library": "^10.6.1",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"
   }

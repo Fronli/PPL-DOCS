@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <!-- Local Stylesheet -->
     <link rel="stylesheet" href="adminpage/style.css">
 </head>
+
 <body>
 
     <!-- TOP NAVIGATION -->
@@ -18,12 +20,15 @@
         <div class="nav-container">
             <div class="nav-left">
                 <div class="logo">
-                    <a href="/" class="logo-text" style="text-decoration: none;">Ticketa</a>
+                    <a href="/" style="text-decoration: none; display: flex; align-items: center;">
+                        <img src="/images/icon/icon.png" alt="Ticketa"
+                            style="width: 28px; height: 28px; object-fit: contain;" />
+                    </a>
                 </div>
                 <div class="divider"></div>
                 <div class="page-title">Admin Console Control</div>
             </div>
-            
+
             <div class="nav-right" id="topActions">
                 <!-- User profile injected by script.js -->
             </div>
@@ -32,35 +37,41 @@
 
     <!-- MAIN CONTENT -->
     <main class="dashboard-container">
-        
+
         <!-- MARKETPLACE PERFORMANCE -->
         <section class="dashboard-section">
             <div class="section-header">
                 <h2>MARKETPLACE PERFORMANCE</h2>
                 <div class="line"></div>
             </div>
-            
+
             <div class="stats-grid">
                 <!-- Card 1 -->
                 <div class="stat-card" style="border-left-color: #1a237e;">
                     <div class="stat-title">TOTAL ACTIVE EVENTS</div>
                     <div class="stat-value">24</div>
                     <div class="stat-trend positive">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l7-7 7 7M12 19V5"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12l7-7 7 7M12 19V5" />
+                        </svg>
                         12% from last month
                     </div>
                 </div>
-                
+
                 <!-- Card 2 -->
                 <div class="stat-card" style="border-left-color: #f57c00;">
                     <div class="stat-title">REGISTERED USERS</div>
                     <div class="stat-value">1,248</div>
                     <div class="stat-trend positive">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l7-7 7 7M12 19V5"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12l7-7 7 7M12 19V5" />
+                        </svg>
                         5.4% new signups
                     </div>
                 </div>
-                
+
                 <!-- Card 3 -->
                 <div class="stat-card" style="border-left-color: #ffb300;">
                     <div class="stat-title">GROSS TICKET SALES</div>
@@ -78,7 +89,7 @@
                 <h2>ORGANIZER APPROVAL QUEUE</h2>
                 <div class="line"></div>
             </div>
-            
+
             <div class="table-container">
                 <table class="data-table">
                     <thead>
@@ -141,7 +152,7 @@
                 <h2>LIVE CONTENT MANAGEMENT</h2>
                 <div class="line"></div>
             </div>
-            
+
             <div class="table-container">
                 <table class="data-table">
                     <thead>
@@ -200,6 +211,7 @@
 
     </main>
 
-    <script src="adminpage/script.js"></script>
+    <script type="module" src="/adminpage/script.js"></script>
 </body>
+
 </html>

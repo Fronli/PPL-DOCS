@@ -1,8 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
+import { authFetch } from '../ui_util/fetch/fetch_util.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
     // Admin Dashboard interactions and data fetching will go here
     console.log('Admin Dashboard Loaded Successfully');
 
     checkAuth();
+
+    // Gunakan authFetch untuk mengambil data dari backend
+	/*
+	try {
+		const res = await authFetch("/api/admin/dashboard-stats");
+		const data = await res.json();
+		console.log("Fetched admin stats with token:", data);
+	} catch (err) {
+		console.error("Error fetching admin stats:", err);
+	}
+	*/
 
     // Example: Highlight rows on click
     const rows = document.querySelectorAll('.data-table tbody tr');

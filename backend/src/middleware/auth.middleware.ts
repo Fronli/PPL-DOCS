@@ -31,7 +31,7 @@ export const verifyToken: RequestHandler = (req, res, next) => {
       id: number;
       role: "USER" | "EO" | "ADMIN";
     };
-
+    
     (req as AuthRequest).user = decoded;
     next();
   } catch (err) {

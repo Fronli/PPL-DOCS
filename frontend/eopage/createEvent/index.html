@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Event - Ticketa</title>
+	<link rel="stylesheet" href="/eopage/createEvent/style.css">
+</head>
+
+<body>
+
+	<!-- Topbar -->
+	<header class="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+			<div class="topbar-divider"></div>
+			<span class="organizer-title">Organizer Center</span>
+		</div>
+		<div class="nav-right" id="topActions">
+			<div class="user-profile-wrap">
+				<div class="user-text">
+					<span class="company-name">Organizer</span>
+					<span class="verified-badge">Verified Organizer</span>
+				</div>
+				<div class="user-avatar">O</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="dashboard-layout">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<nav class="side-nav">
+				<a href="/eo/dashboard" class="nav-item">Dashboard Overview</a>
+				<a href="#" class="nav-item">My Events</a>
+				<a href="#" class="nav-item active">Create Event</a>
+
+			</nav>
+		</aside>
+
+		<!-- Main Content -->
+		<main class="main-content">
+			<!-- Page Title -->
+			<div class="page-header">
+				<h1>Create New Event</h1>
+				<p>Fill in the details below to publish your event to the marketplace.</p>
+			</div>
+
+			<form id="createEventForm">
+				<!-- SECTION 1: EVENT MEDIA -->
+				<div class="form-card">
+					<div class="section-title-wrap">
+						<div class="section-title-line"></div>
+						<h2 class="section-title">Event Media</h2>
+					</div>
+					
+					<div class="form-group">
+						<label class="form-label">EVENT POSTER / COVER PHOTO</label>
+						<div class="upload-box" id="uploadBox">
+							<div class="upload-title">Click to upload or drag & drop</div>
+							<div class="upload-subtitle">Recommended 1200 x 675px (PNG, JPG max 5MB)</div>
+                            <input type="file" id="posterFile" accept="image/png, image/jpeg" style="display:none;" />
+						</div>
+					</div>
+				</div>
+
+				<!-- SECTION 2: BASIC INFORMATION -->
+				<div class="form-card">
+					<div class="section-title-wrap">
+						<div class="section-title-line"></div>
+						<h2 class="section-title">Basic Information</h2>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">EVENT TITLE</label>
+						<input type="text" class="form-input" id="eventTitle" placeholder="Give your event a short distinct name" required>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">DESCRIPTION</label>
+						<textarea class="form-input" id="eventDescription" placeholder="Tell people what makes your event special..."></textarea>
+					</div>
+
+					<div class="form-row">
+						<div class="form-col">
+							<div class="form-group">
+								<label class="form-label">DATE & TIME</label>
+								<input type="datetime-local" class="form-input" id="eventDateTime" required>
+							</div>
+						</div>
+						<div class="form-col">
+							<div class="form-group">
+								<label class="form-label">LOCATION / VENUE</label>
+								<input type="text" class="form-input" id="eventLocation" placeholder="e.g. Grand Ballroom, Hilton Hotel" required>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- SECTION 3: TICKET INVENTORY -->
+				<div class="form-card">
+					<div class="section-title-wrap">
+						<div class="section-title-line"></div>
+						<h2 class="section-title">Ticket Inventory</h2>
+					</div>
+
+					<!-- VIP Platinum Row -->
+					<div class="ticket-row">
+						<div class="ticket-col-badge">
+							<span class="badge-vip">VIP PLATINUM</span>
+						</div>
+						<div class="ticket-col-input">
+							<label class="form-label">PRICE (IDR)</label>
+							<input type="number" class="form-input" placeholder="0.00">
+						</div>
+						<div class="ticket-col-input">
+							<label class="form-label">TOTAL STOCK</label>
+							<input type="number" class="form-input" placeholder="0">
+						</div>
+					</div>
+
+					<!-- VIP Gold Row -->
+					<div class="ticket-row">
+						<div class="ticket-col-badge">
+							<span class="badge-vip gold">VIP GOLD</span>
+						</div>
+						<div class="ticket-col-input">
+							<label class="form-label">PRICE (IDR)</label>
+							<input type="number" class="form-input" placeholder="0.00">
+						</div>
+						<div class="ticket-col-input">
+							<label class="form-label">TOTAL STOCK</label>
+							<input type="number" class="form-input" placeholder="0">
+						</div>
+					</div>
+
+					<!-- Regular Row -->
+					<div class="ticket-row">
+						<div class="ticket-col-badge">
+							<span class="badge-regular">REGULAR</span>
+						</div>
+						<div class="ticket-col-input">
+							<label class="form-label">PRICE (IDR)</label>
+							<input type="number" class="form-input" placeholder="0.00">
+						</div>
+						<div class="ticket-col-input">
+							<label class="form-label">TOTAL STOCK</label>
+							<input type="number" class="form-input" placeholder="0">
+						</div>
+					</div>
+				</div>
+
+				<!-- Form Actions -->
+				<div class="form-actions">
+					<button type="button" class="btn-secondary" onclick="saveAsDraft()">Save as Draft</button>
+					<button type="submit" class="btn-primary">Publish Live Event</button>
+				</div>
+			</form>
+
+			<!-- Footer -->
+			<footer class="site-footer">
+				<div class="footer-content">
+					<div class="footer-brand">
+						<a href="/" class="footer-logo">
+							<img src="/images/icon/icon.png" alt="Ticketa Logo" />
+						</a>
+						<div class="contact-info">
+							<p class="contact-title">Contact Us:</p>
+							<p>Email: ticketa@gmail.com</p>
+							<p>Phone: +62 8224 0031</p>
+							<p>Address: Menara Matahari, Lt. 15, Lippo Cikarang</p>
+						</div>
+					</div>
+					<div class="footer-links">
+						<h3>Platform</h3>
+						<a href="#">Become an Organizer</a>
+						<a href="#">Browse Categories</a>
+						<a href="#">Host an Event</a>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+				</div>
+			</footer>
+		</main>
+	</div>
+
+	<script type="module" src="/eopage/createEvent/script.js"></script>
+</body>
+
+</html>

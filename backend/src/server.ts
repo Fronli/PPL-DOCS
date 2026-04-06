@@ -21,6 +21,21 @@ app.get('/', (req: Request, res: Response)=>{
 });
 
 
+// EO Pages Routes
+    // Dashboard
+    app.get('/eo/dashboard', (req: Request, res: Response)=>{
+      res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'dashboard', 'index.html'));
+    });
+
+    // Create Event
+    app.get('/eo/createEvent', (req: Request, res: Response)=>{
+      res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'createEvent', 'index.html'));
+    });
+
+
+// Admin Pages Routes
+
+
 //Routes 
 import eventRoutes from './routes/event.routes.js';
 app.use('/event', eventRoutes);

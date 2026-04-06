@@ -20,7 +20,10 @@ app.get('/', (req: Request, res: Response)=>{
     res.sendFile(path.join(__dirname, 'frontend', 'homepage', 'index.html'));
 });
 
-
+// User Pages Routes
+app.get('/event-detail/:id', (req: Request, res: Response)=>{
+    res.sendFile(path.join(__dirname, 'frontend', 'userpage', 'eventDetail', 'index.html'));
+});
 // EO Pages Routes
     // Dashboard
     app.get('/eo/dashboard', (req: Request, res: Response)=>{

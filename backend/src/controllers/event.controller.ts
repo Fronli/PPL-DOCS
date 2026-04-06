@@ -55,3 +55,39 @@ export const getEvents = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Failed to fetch events' });
     }
 }
+
+export const getEventById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    if (!id || isNaN(Number(id))) {
+        return res.status(400).json({ message: 'Valid Event ID is required' });
+    }
+
+    try {
+        const event = await prisma.event.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                ticketTypes: {
+                    orderBy: { price: 'asc' }
+                },
+                organizer: {
+                    select: {
+                        name: true,
+                        role: true
+                    }
+                }
+            }
+        });
+
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        res.json(event);
+    } catch (error) {
+        console.error('Error fetching event by ID:', error);
+        res.status(500).json({ message: 'Failed to fetch event details' });
+    }
+}

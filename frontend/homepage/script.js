@@ -162,7 +162,7 @@ function createCard(ev, delay = 0) {
 				</div>
 			</div>
 			<div class="event-price">${priceText}</div>
-			<button type="button" class="event-btn">View Details</button>
+			<button type="button" class="event-btn" onclick="window.location.href='/event-detail/${ev.id}'">View Details</button>
 		</div>
 	`;
 	return card;

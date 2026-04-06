@@ -242,11 +242,26 @@ document.addEventListener("DOMContentLoaded", () => {
 			const location = document.getElementById("eventLocation").value;
 			
 			let totalSeats = 0;
+			const ticketTypes = [];
 			const ticketRows = document.querySelectorAll('.ticket-row');
 			ticketRows.forEach(row => {
-				const stockInput = row.querySelectorAll('.form-input')[1]; 
-				if (stockInput && stockInput.value) {
-					totalSeats += parseInt(stockInput.value) || 0;
+				const nameBadge = row.querySelector('[class^="badge-"]');
+				const nameStr = nameBadge ? nameBadge.textContent.trim() : "REGULAR";
+				
+				const formInputs = row.querySelectorAll('.form-input');
+				const priceInput = formInputs[0];
+				const stockInput = formInputs[1];
+				
+				const quota = stockInput ? (parseInt(stockInput.value) || 0) : 0;
+				const priceNum = priceInput ? (parseFloat(priceInput.value) || 0) : 0;
+
+				if (quota > 0 || priceNum > 0) {
+					totalSeats += quota;
+					ticketTypes.push({
+						name: nameStr,
+						price: priceNum,
+						quota: quota
+					});
 				}
 			});
 
@@ -260,6 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("eventDate", eventDate);
 			formData.append("location", location);
 			formData.append("totalSeats", totalSeats);
+			formData.append("ticketTypes", JSON.stringify(ticketTypes));
 
 			if (file) {
 				formData.append("poster", file);

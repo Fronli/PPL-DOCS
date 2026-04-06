@@ -27,7 +27,7 @@ export const getEOEvent = async (req: Request, res: Response) => {
 
 export const createEvent = async (req: Request, res: Response) => {
     try {
-        const { title, description, category, eventDate, location, totalSeats } = req.body;
+        const { title, description, category, eventDate, location, totalSeats, ticketTypes } = req.body;
         
         let posterUrl = null;
         if (req.file) {
@@ -54,6 +54,15 @@ export const createEvent = async (req: Request, res: Response) => {
         const parsedDate = new Date(eventDate);
         const parsedSeats = parseInt(totalSeats) || 0;
 
+        let parsedTicketTypes = [];
+        if (ticketTypes) {
+            try {
+                parsedTicketTypes = JSON.parse(ticketTypes);
+            } catch (e) {
+                console.error("Gagal parse ticketTypes JSON", e);
+            }
+        }
+
         const event = await prisma.event.create({
             data: {
                 title,
@@ -65,7 +74,14 @@ export const createEvent = async (req: Request, res: Response) => {
                 posterUrl,
                 totalSeats: parsedSeats,
                 isPublished: true, // asumsikan langsung publish
-                organizerId: (req as any).user.id
+                organizerId: (req as any).user.id,
+                ticketTypes: {
+                    create: parsedTicketTypes.map((t: any) => ({
+                        name: t.name,
+                        price: t.price,
+                        quota: t.quota
+                    }))
+                }
             }
         });
 

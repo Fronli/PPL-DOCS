@@ -19,53 +19,80 @@ body {
 	color: var(--text-main);
 }
 
-/* Header (Copied from homepage) */
-.site-header {
+/* ═══════════════════════════════════
+   TOPBAR
+   ═══════════════════════════════════ */
+.topbar {
 	position: sticky;
 	top: 0;
-	background: var(--surface);
-	border-bottom: 1px solid var(--line);
 	z-index: 100;
-	padding: 0 32px;
-}
-.header-container {
-	max-width: 1200px;
-	margin: 0 auto;
-	height: 72px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	padding: 14px 40px;
+	border-bottom: 1px solid var(--line);
+	background: rgba(255, 255, 255, 0.98);
 }
-.brand-logo {
+
+.nav-left {
+	flex: 1;
 	display: flex;
+	justify-content: flex-start;
 	align-items: center;
-	gap: 8px;
-	text-decoration: none;
-	font-weight: 800;
-	font-size: 1.5rem;
-	color: var(--brand);
 }
-.brand-logo img { width: 32px; height: 32px; }
-.main-nav {
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+	text-decoration: none;
+	color: var(--text-main);
+}
+
+.brand-logo {
+	/* Scalable logo size */
+	height: 44px;
+	width: auto;
+	object-fit: contain;
+}
+
+.nav-center {
+	flex: 1;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	gap: 32px;
 }
-.main-nav a {
+
+.nav-center a {
 	text-decoration: none;
 	color: var(--text-main);
 	font-weight: 600;
 	font-size: 0.95rem;
+	transition: color 0.2s ease;
 }
-.main-nav a:hover { color: var(--brand); }
-.user-actions { display: flex; align-items: center; gap: 16px; }
-.login-btn {
-	background: var(--brand);
-	color: white;
-	padding: 10px 24px;
-	border-radius: 100px;
-	text-decoration: none;
-	font-weight: 600;
+
+.nav-center a:hover,
+.nav-center a.active {
+	color: var(--brand);
+}
+
+.nav-right {
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 20px;
+}
+
+.login-link {
+	color: var(--brand);
+	font-weight: 700;
 	font-size: 0.95rem;
+	text-decoration: none;
+}
+
+.login-link:hover {
+	text-decoration: underline;
 }
 
 /* Hero Banner */
@@ -318,18 +345,12 @@ body {
 	gap: 60px;
 }
 .footer-brand { flex: 1; }
-.footer-logo {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	text-decoration: none;
-	margin-bottom: 20px;
-}
-.footer-logo img { width: 28px; height: 28px; }
-.footer-logo span {
+.footer-brand-text {
 	font-weight: 800;
 	font-size: 1.5rem;
-	color: var(--brand);
+	color: var(--primary-blue);
+	display: block;
+	margin-bottom: 20px;
 }
 .contact-info p { margin: 8px 0; font-size: 0.85rem; color: var(--text-muted); }
 .contact-title { font-weight: 700; color: var(--text-main); margin-bottom: 12px !important; }

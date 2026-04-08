@@ -8,23 +8,26 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-	<!-- Header -->
-	<header class="site-header">
-		<div class="header-container">
-			<a href="/" class="brand-logo">
-				<img src="/images/icon/icon.png" alt="Ticketa Logo" width="28" height="28" />
-				<span>Ticketa</span>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<!-- Left: Logo -->
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
 			</a>
-			
-			<nav class="main-nav">
-				<a href="/">Home</a>
-				<a href="/#explore-section" id="exploreNavBtn">Explore Events</a>
-				<a href="/eo/dashboard" id="organizerNavBtn">Become an Organizer</a>
-			</nav>
-			
-			<div class="user-actions" id="topActions">
-				<a href="/auth/login" class="login-btn">Login</a>
-			</div>
+		</div>
+
+		<!-- Center: Navigation Menu -->
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#explore-section" id="exploreNavBtn">Explore Events</a>
+			<a href="/eo/dashboard" id="organizerNavBtn">Become an Organizer</a>
+		</nav>
+
+		<!-- Right: Actions -->
+		<div class="nav-right" id="topActions">
+			<a class="login-link" id="loginBtn" href="/auth/login">Log In</a>
+			<!-- Sign Up replaced by top actions dynamically injected by JS, but keeping placeholder layout similar -->
 		</div>
 	</header>
 
@@ -144,10 +147,7 @@
 	<footer class="site-footer">
 		<div class="footer-content">
 			<div class="footer-brand">
-				<a href="/" class="footer-logo">
-					<img src="/images/icon/icon.png" alt="Ticketa Logo" />
-					<span>Ticketa</span>
-				</a>
+				<span class="footer-brand-text">Ticketa</span>
 				<div class="contact-info">
 					<p class="contact-title">Contact Us:</p>
 					<p>Email: ticketa@gmail.com</p>

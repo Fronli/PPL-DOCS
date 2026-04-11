@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Search Events - Ticketa</title>
+	<link rel="stylesheet" href="/searchpage/style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+		</div>
+
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#explore-section" id="exploreNavBtn">Explore Events</a>
+			<a href="/eo/dashboard" id="organizerNavBtn">Become an Organizer</a>
+		</nav>
+
+		<div class="nav-right" id="topActions">
+			<a class="login-link" id="loginBtn" href="/auth/login">Log In</a>
+			<!-- Dynamic profile inserted here later -->
+		</div>
+	</header>
+
+	<!-- ─── SEARCH HERO ─── -->
+	<section class="search-hero">
+		<div class="hero-content">
+			<h1>Discover Great Events</h1>
+			<p>Find the best experiences across categories, dates, and locations worldwide.</p>
+			<form id="searchForm" class="search-bar">
+				<svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="11" cy="11" r="8"></circle>
+					<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+				</svg>
+				<input id="searchInputPage" type="search" placeholder="Search by event name, category, or location..." autocomplete="off" />
+				<button class="search-submit" type="submit">Search Events</button>
+			</form>
+		</div>
+	</section>
+
+	<main class="content-area">
+		<!-- ─── RESULTS BAR ─── -->
+		<div class="results-bar">
+			<span class="showing-text">Showing <strong id="resultCountBadge">0</strong> Events</span>
+			<!-- No sort or filter here per user request -->
+		</div>
+
+		<!-- ─── EVENT GRID ─── -->
+		<section class="section" id="eventListing">
+			<div class="grid-container" id="eventGrid">
+				<!-- Dynamic Events will be appended here -->
+			</div>
+
+			<div class="empty-state" id="emptyState" style="display: none;">
+				<img id="emptyStateImg" src="" alt="Not Found Illustration" />
+				<h3>Hasil Pencarian tidak ditemukan</h3>
+				<p>Kami tidak dapat menemukan acara atau kreator dengan kata kunci tersebut.<br>Silakan perhatikan ejaan, gunakan kata kunci lain, atau cari ulang.</p>
+			</div>
+
+			<div class="load-more-wrap" id="loadMoreWrap" style="display: none;">
+				<button class="load-more-btn" id="loadMoreBtn">Load More ↓</button>
+			</div>
+		</section>
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="site-footer">
+		<div class="footer-content">
+			<div class="footer-brand">
+				<span class="footer-brand-text">Ticketa</span>
+				<div class="contact-info">
+					<p class="contact-title">Contact Us:</p>
+					<p>Email: ticketa@gmail.com</p>
+					<p>Phone: +62 8224 0031</p>
+					<p>Address: Menara Matahari, Lt. 15, Lippo Cikarang</p>
+				</div>
+			</div>
+			<div class="footer-links">
+				<h3>Platform</h3>
+				<a href="/eo/dashboard">Become an Organizer</a>
+				<a href="/#explore-section">Browse Categories</a>
+				<a href="/eo/createEvent">Host an Event</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script src="/searchpage/script.js"></script>
+</body>
+</html>

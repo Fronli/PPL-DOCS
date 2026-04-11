@@ -7,8 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.join(path.dirname(__filename), '../../../');
 
 export const getEvents = async (req: Request, res: Response) => {
-    const { cursor, category, city } = req.query;
-    const limit = 16;
+    const { cursor, category, city, search } = req.query;
+    // Set limit to 8 for search per requirement, but realistically if it's a general list it should be 8.
+    const limit = 8;
 
     // Build where clause dynamically
     const where: any = {
@@ -21,6 +22,15 @@ export const getEvents = async (req: Request, res: Response) => {
 
     if (city && typeof city === 'string') {
         where.city = city;
+    }
+
+    if (search && typeof search === 'string') {
+        where.OR = [
+            { title: { contains: search, mode: 'insensitive' } },
+            { category: { contains: search, mode: 'insensitive' } },
+            { city: { contains: search, mode: 'insensitive' } },
+            { organizer: { name: { contains: search, mode: 'insensitive' } } }
+        ];
     }
 
     try {

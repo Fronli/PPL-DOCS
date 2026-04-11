@@ -23,6 +23,10 @@ app.get('/', (req: Request, res: Response) => {
 
 
 // User Pages Routes
+app.get('/search', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'searchpage', 'index.html'));
+});
+
 app.get('/event-detail/:id', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'eventdetailpage', 'index.html'));
 });

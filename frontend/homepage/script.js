@@ -102,20 +102,20 @@ filterCity.addEventListener("change", () => {
 	resetAndFetch();
 });
 
-/* ─── Search (client-side dari events yang sudah di-load) ─── */
-function getFilteredEvents() {
-	const keyword = searchInput.value.trim().toLowerCase();
-	if (!keyword) return events;
-
-	return events.filter((ev) => {
-		const haystack = `${ev.title} ${ev.description || ""} ${ev.city || ""} ${ev.venue || ""} ${ev.category || ""}`.toLowerCase();
-		return haystack.includes(keyword);
-	});
+/* ─── Search (Redirect ke /search) ─── */
+function performSearch() {
+	const keyword = searchInput.value.trim();
+	if (keyword) {
+		window.location.href = '/search?q=' + encodeURIComponent(keyword);
+	}
 }
 
-searchBtn.addEventListener("click", renderGrid);
+searchBtn.addEventListener("click", performSearch);
 searchInput.addEventListener("keydown", (e) => {
-	if (e.key === "Enter") renderGrid();
+	if (e.key === "Enter") {
+		e.preventDefault();
+		performSearch();
+	}
 });
 
 /* ─── Load More ─── */
@@ -169,10 +169,9 @@ function createCard(ev, delay = 0) {
 }
 
 function renderGrid() {
-	const filtered = getFilteredEvents();
 	eventGrid.innerHTML = "";
-	filtered.forEach((ev, i) => eventGrid.append(createCard(ev, i)));
-	emptyState.hidden = filtered.length > 0;
+	events.forEach((ev, i) => eventGrid.append(createCard(ev, i)));
+	emptyState.hidden = events.length > 0;
 }
 
 /* ─── Smooth scroll for nav links ─── */

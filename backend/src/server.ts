@@ -24,10 +24,21 @@ app.get('/', (req: Request, res: Response)=>{
 app.get('/event-detail/:id', (req: Request, res: Response)=>{
     res.sendFile(path.join(__dirname, 'frontend', 'userpage', 'eventDetail', 'index.html'));
 });
+
 // EO Pages Routes
     // Dashboard
     app.get('/eo/dashboard', (req: Request, res: Response)=>{
       res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'dashboard', 'index.html'));
+    });
+
+    // Manage Event - List View
+    app.get('/eo/manageEvent', (req: Request, res: Response)=>{
+      res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'manageEventList', 'index.html'));
+    });
+
+    // Manage Event - Detail View
+    app.get('/eo/manageEvent/:id', (req: Request, res: Response)=>{
+      res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'manageEvent', 'index.html'));
     });
 
     // Create Event

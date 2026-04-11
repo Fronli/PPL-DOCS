@@ -5,4 +5,5 @@ const router = Router();
 router.get('/getEvents', getEvents);
 router.get('/getEventById/:id', getEventById);
 
+
 export default router;

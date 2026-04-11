@@ -35,7 +35,7 @@
 		<aside class="sidebar">
 			<nav class="side-nav">
 				<a href="/eo/dashboard" class="nav-item">Dashboard Overview</a>
-				<a href="#" class="nav-item">My Events</a>
+				<a href="/eo/manageEvent" class="nav-item">My Events</a>
 				<a href="#" class="nav-item active">Create Event</a>
 
 			</nav>
@@ -144,47 +144,47 @@
 					</div>
 
 					<!-- VIP Platinum Row -->
-					<div class="ticket-row">
+					<div class="ticket-row" data-type="VIP PLATINUM">
 						<div class="ticket-col-badge">
 							<span class="badge-vip">VIP PLATINUM</span>
 						</div>
 						<div class="ticket-col-input">
 							<label class="form-label">PRICE (IDR)</label>
-							<input type="number" class="form-input" placeholder="0.00">
+							<input type="number" id="vipPlatinumPrice" class="form-input" placeholder="0.00">
 						</div>
 						<div class="ticket-col-input">
 							<label class="form-label">TOTAL STOCK</label>
-							<input type="number" class="form-input" placeholder="0">
+							<input type="number" id="vipPlatinumStock" class="form-input" placeholder="0">
 						</div>
 					</div>
 
 					<!-- VIP Gold Row -->
-					<div class="ticket-row">
+					<div class="ticket-row" data-type="VIP GOLD">
 						<div class="ticket-col-badge">
 							<span class="badge-vip gold">VIP GOLD</span>
 						</div>
 						<div class="ticket-col-input">
 							<label class="form-label">PRICE (IDR)</label>
-							<input type="number" class="form-input" placeholder="0.00">
+							<input type="number" id="vipGoldPrice" class="form-input" placeholder="0.00">
 						</div>
 						<div class="ticket-col-input">
 							<label class="form-label">TOTAL STOCK</label>
-							<input type="number" class="form-input" placeholder="0">
+							<input type="number" id="vipGoldStock" class="form-input" placeholder="0">
 						</div>
 					</div>
 
 					<!-- Regular Row -->
-					<div class="ticket-row">
+					<div class="ticket-row" data-type="REGULAR">
 						<div class="ticket-col-badge">
 							<span class="badge-regular">REGULAR</span>
 						</div>
 						<div class="ticket-col-input">
 							<label class="form-label">PRICE (IDR)</label>
-							<input type="number" class="form-input" placeholder="0.00">
+							<input type="number" id="regularPrice" class="form-input" placeholder="0.00">
 						</div>
 						<div class="ticket-col-input">
 							<label class="form-label">TOTAL STOCK</label>
-							<input type="number" class="form-input" placeholder="0">
+							<input type="number" id="regularStock" class="form-input" placeholder="0">
 						</div>
 					</div>
 				</div>

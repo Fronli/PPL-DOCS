@@ -28,8 +28,7 @@ function checkAuth() {
 				</div>
 				
 				<div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); min-width: 150px; z-index: 100; overflow: hidden;">
-					<a href="/" style="display: block; padding: 12px 18px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 700; border-bottom: 1px solid var(--line); background: #fff;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">Marketplace</a>
-					<a href="#" onclick="logout(event)" style="display: block; padding: 12px 18px; color: #ef4444; text-decoration: none; font-size: 0.85rem; font-weight: 700; background: #fff;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='#fff'">Logout</a>
+					<a href="/" style="display: block; padding: 12px 18px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 700; background: #fff;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">Marketplace</a>
 				</div>
 			</div>
 		`;
@@ -242,13 +241,34 @@ document.addEventListener("DOMContentLoaded", () => {
 			const location = document.getElementById("eventLocation").value;
 			
 			let totalSeats = 0;
-			const ticketRows = document.querySelectorAll('.ticket-row');
-			ticketRows.forEach(row => {
-				const stockInput = row.querySelectorAll('.form-input')[1]; 
-				if (stockInput && stockInput.value) {
-					totalSeats += parseInt(stockInput.value) || 0;
-				}
-			});
+			const tickets = [];
+
+			// Parsing VIP Platinum
+			const vipPlatPrice = document.getElementById("vipPlatinumPrice")?.value;
+			const vipPlatStock = document.getElementById("vipPlatinumStock")?.value;
+			if (vipPlatPrice && vipPlatStock && parseInt(vipPlatStock) > 0) {
+				const stock = parseInt(vipPlatStock);
+				totalSeats += stock;
+				tickets.push({ name: "VIP PLATINUM", price: parseFloat(vipPlatPrice), quota: stock });
+			}
+
+			// Parsing VIP Gold
+			const vipGoldPrice = document.getElementById("vipGoldPrice")?.value;
+			const vipGoldStock = document.getElementById("vipGoldStock")?.value;
+			if (vipGoldPrice && vipGoldStock && parseInt(vipGoldStock) > 0) {
+				const stock = parseInt(vipGoldStock);
+				totalSeats += stock;
+				tickets.push({ name: "VIP GOLD", price: parseFloat(vipGoldPrice), quota: stock });
+			}
+
+			// Parsing Regular
+			const regularPrice = document.getElementById("regularPrice")?.value;
+			const regularStock = document.getElementById("regularStock")?.value;
+			if (regularPrice && regularStock && parseInt(regularStock) > 0) {
+				const stock = parseInt(regularStock);
+				totalSeats += stock;
+				tickets.push({ name: "REGULAR", price: parseFloat(regularPrice), quota: stock });
+			}
 
 			const fileInput = document.getElementById("posterFile");
 			const file = fileInput.files[0];
@@ -260,6 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("eventDate", eventDate);
 			formData.append("location", location);
 			formData.append("totalSeats", totalSeats);
+			formData.append("tickets", JSON.stringify(tickets));
 
 			if (file) {
 				formData.append("poster", file);

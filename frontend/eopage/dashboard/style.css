@@ -104,6 +104,11 @@ body {
 	border-radius: 50%;
 	background-color: var(--primary-blue);
 	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	color: white;
+	font-weight: 600;
+	font-size: 0.9rem;
 }
 
 /* LAYOUT */

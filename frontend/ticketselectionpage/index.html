@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - Select Tickets</title>
+	<link rel="stylesheet" href="/ticketselectionpage/style.css" />
+</head>
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<!-- Left: Logo -->
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+		</div>
+
+		<!-- Center: Navigation Menu -->
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#explore-section" id="exploreNavBtn">Explore Events</a>
+			<a href="/eo/dashboard" id="organizerNavBtn">Become an Organizer</a>
+		</nav>
+
+		<!-- Right: Actions -->
+		<div class="nav-right" id="topActions">
+			<a class="login-link" id="loginBtn" href="/auth/login">Log In</a>
+			<!-- Sign Up replaced by top actions dynamically injected by JS, but keeping placeholder layout similar -->
+		</div>
+	</header>
+
+	<!-- ─── HERO BANNER ─── -->
+	<section class="event-hero">
+		<div class="hero-bg" id="eventPoster"></div>
+		<div class="hero-overlay"></div>
+		<div class="hero-content">
+			<div class="step-badge">STEP 1: TICKET SELECTION</div>
+			<h1 class="event-title" id="eventTitle">Loading Event...</h1>
+			<div class="event-meta">
+				<span class="meta-item">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+					<span id="eventDate">--</span>
+				</span>
+				<span class="meta-item" style="display: none;">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+					<span id="eventTime">--</span>
+				</span>
+				<span class="meta-item">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+					<span id="eventLocation">--</span>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- ─── MAIN CONTENT ─── -->
+	<main class="page-body">
+		<div class="checkout-layout">
+			
+			<!-- Left Column: Ticket Selection -->
+			<div class="selection-column">
+				<div class="ticket-card">
+					<div class="ticket-header">
+						<h2 class="ticket-name" id="ticketName">--</h2>
+						<div class="ticket-price">
+							<span class="price-val" id="ticketPrice">--</span> <span class="price-unit">/ ticket</span>
+						</div>
+						<div class="availability-badge">
+							<span class="dot"></span> <span id="availableSeats">--</span> seats remaining
+						</div>
+					</div>
+					
+					<hr class="divider" />
+					
+					<div class="quantity-section">
+						<h3 class="quantity-label">CHOOSE QUANTITY</h3>
+						<div class="quantity-controls">
+							<button class="qty-btn" id="btnMinus">-</button>
+							<span class="qty-display"><span id="qtyVal">2</span> Tickets</span>
+							<button class="qty-btn" id="btnPlus">+</button>
+						</div>
+					</div>
+					
+					<div class="ticket-footer">
+						<button class="btn-continue" id="btnContinue">Continue to Checkout &rarr;</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Column: Order Summary -->
+			<div class="summary-column">
+				<div class="summary-card">
+					<div class="summary-title-wrap">
+						<div class="title-bar"></div>
+						<h2 class="summary-title">Order Summary</h2>
+					</div>
+					
+					<div class="summary-row">
+						<span class="row-label">Ticket Type</span>
+						<span class="row-val" id="summaryTicketType">--</span>
+					</div>
+					<div class="summary-row">
+						<span class="row-label">Quantity</span>
+						<span class="row-val"><span id="summaryQty">2</span> &times; <span id="summaryUnitPrice">--</span></span>
+					</div>
+					<div class="summary-row">
+						<span class="row-label">Service Fee</span>
+						<span class="row-val text-green">Free</span>
+					</div>
+					
+					<hr class="summary-divider" />
+					
+					<div class="subtotal-row">
+						<span class="subtotal-label">Subtotal</span>
+						<span class="subtotal-val" id="summarySubtotal">IDR 7,600,000</span>
+					</div>
+					<p class="final-price-note">Final price shown at checkout</p>
+					
+					<div class="tax-notice">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M5 5l1.5 1.5"></path><path d="M17.5 17.5L19 19"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M5 19l1.5-1.5"></path><path d="M17.5 6.5L19 5"></path></svg>
+						<span>Taxes will be calculated based on your location.</span>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-col brand-col">
+				<span class="footer-brand">Ticketa</span>
+				<p style="margin-top:20px;font-weight:bold;color:var(--brand-navy);">Contact Us:</p>
+				<p>Email: ticketa@gmail.com</p>
+				<p>Phone: +62 8224 0031</p>
+				<p>Address: Menara Matahari, Lt. 15, Lu City</p>
+			</div>
+			<div class="footer-col">
+				<h4 style="margin-bottom:20px;color:var(--brand-navy);font-size:1.1rem;font-weight:800;">Platform</h4>
+				<a href="#">Become an Organizer</a>
+				<a href="#">Browse Categories</a>
+				<a href="#">Host an Event</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script src="/ticketselectionpage/script.js"></script>
+</body>
+</html>

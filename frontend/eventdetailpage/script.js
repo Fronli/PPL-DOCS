@@ -138,10 +138,10 @@ function renderEventDetails(ev) {
 	}
 
 	// Tickets
-	renderTickets(ev.ticketTypes);
+	renderTickets(ev.ticketTypes, ev.id);
 }
 
-function renderTickets(tickets) {
+function renderTickets(tickets, eventId) {
 	ticketList.innerHTML = "";
 
 	if (!tickets || tickets.length === 0) {
@@ -180,8 +180,12 @@ function renderTickets(tickets) {
 		`;
 		
 		item.querySelector('button').addEventListener('click', () => {
-			// Dummy checkout logic
-			alert(`Proceeding to checkout for ${ticket.name} at ${formatPrice(ticket.price)}`);
+			const token = localStorage.getItem("token");
+			if (!token) {
+				window.location.href = "/auth/login";
+				return;
+			}
+			window.location.href = `/checkout/${eventId}/${ticket.id}`;
 		});
 
 		ticketList.appendChild(item);

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Manage Event - EO Dashboard</title>
+	<link rel="stylesheet" href="/eopage/manageEvent/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- Topbar -->
+	<header class="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+			<div class="topbar-divider"></div>
+			<span class="organizer-title">Organizer Center</span>
+		</div>
+		<div class="nav-right" id="topActions">
+			<div class="user-profile-wrap">
+				<div class="user-text">
+					<span class="company-name" id="userCompanyName">Loading...</span>
+					<span class="verified-badge">Verified Organizer</span>
+				</div>
+				<div class="user-avatar" id="userAvatar">?</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="dashboard-layout">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<nav class="side-nav">
+				<a href="/eo/dashboard" class="nav-item">Dashboard Overview</a>
+				<a href="/eo/manageEvent" class="nav-item">My Events</a>
+				<a href="#" class="nav-item active sub-item">Manage Event</a>
+				<a href="#" class="nav-item sub-item">Ticket Scanner</a>
+				
+				<div style="margin-top: 12px;"></div>
+				<a href="/eo/createEvent" class="nav-item">Create Event</a>
+				
+			</nav>
+		</aside>
+
+		<!-- Main Content -->
+		<main class="main-content">
+			<!-- Event Header Card -->
+			<div class="event-header-card">
+				<div class="event-poster" id="evPoster"></div>
+				<div class="event-header-details">
+					<div class="header-grid">
+						<div class="header-col">
+							<span class="header-label">EVENT NAME</span>
+							<h2 class="header-val" id="evTitle">--</h2>
+						</div>
+						<div class="header-col">
+							<span class="header-label">DATE & TIME</span>
+							<h2 class="header-val" id="evDateTime">--</h2>
+						</div>
+						<div class="header-col">
+							<span class="header-label">LOCATION</span>
+							<h2 class="header-val" id="evLocation">--</h2>
+						</div>
+						<div class="header-col">
+							<span class="header-label">TOTAL CAPACITY</span>
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<h2 class="header-val" id="evCapacity">--</h2>
+								<span class="sold-badge" id="evSoldBadge">0% Sold</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Management Actions Title -->
+			<div class="section-title-wrapper">
+				<h3 class="section-title">MANAGEMENT ACTIONS</h3>
+				<div class="title-line"></div>
+			</div>
+
+			<!-- Action Cards Grid -->
+			<div class="actions-grid">
+				<!-- Card 1: Edit Details -->
+				<div class="action-card" id="editDetailsCard">
+					<div class="action-icon"></div>
+					<h4 class="action-title">Edit Details</h4>
+					<p class="action-desc" id="eventDescText">Modify event information including name, full description, schedule, and venue settings.</p>
+					<div id="editDetailsArea" style="display: none; margin-bottom: 16px;">
+						<textarea id="eventDescEditor" class="form-input" style="width: 100%; min-height: 100px; resize: vertical; border: 1px solid var(--line); border-radius: 8px; padding: 12px; font-family: inherit; font-size: 0.85rem; color: var(--text-main);"></textarea>
+					</div>
+					<div class="action-footer" id="editDetailsFooter">
+						<button class="btn-primary" id="btnEditDetails" onclick="toggleEditDetails()">Edit Event Info</button>
+						<button class="btn-primary" id="btnSaveDetails" style="display: none; background: var(--primary-orange); margin-top: 8px;" onclick="saveEventDetails()">Save Event Info</button>
+					</div>
+				</div>
+
+				<!-- Card 2: Ticket Quota -->
+				<div class="action-card">
+					<div class="action-icon"></div>
+					<h4 class="action-title">Ticket Quota</h4>
+					<p class="action-desc">Configure ticket allocation, price points, and seat availability for each category.</p>
+					<div class="quota-list" id="quotaList">
+						<!-- Injected by JS -->
+					</div>
+					<div class="action-footer" id="saveQuotaFooter" style="display: none; border-top: none; padding-top: 12px;">
+						<button class="btn-primary" style="background: var(--primary-orange);" onclick="saveEventQuotas()">Save Quota Updates</button>
+					</div>
+				</div>
+				
+				<!-- Sales Insights Card skipped per prompt -->
+			</div>
+
+			<!-- Live Sales Overview -->
+			<div class="live-sales-header">
+				<div>
+					<h3 class="live-sales-title">LIVE SALES OVERVIEW</h3>
+					<p class="live-sales-subtitle">Real-time monitoring of your ticket sales performance.</p>
+				</div>
+				<!-- Download CSV Report Button omitted per prompt -->
+			</div>
+
+			<div class="sales-metrics-grid">
+				<div class="sales-metric-box revenue-box">
+					<span class="metric-label">ESTIMATED REVENUE</span>
+					<h2 class="metric-val" id="salesRevenue">IDR 0.00</h2>
+				</div>
+				<div class="sales-metric-box tickets-box">
+					<span class="metric-label">TOTAL TICKETS SOLD</span>
+					<h2 class="metric-val">
+						<span class="metric-highlight" id="salesTicketsSold">0</span> <span class="metric-total" id="salesTicketsTotal">/ 0</span>
+					</h2>
+				</div>
+				<!-- Conversion Rate Box omitted per prompt -->
+			</div>
+
+			<!-- Transactions Table -->
+			<div class="transactions-table-container">
+				<table class="transactions-table">
+					<thead>
+						<tr>
+							<th>TRANSACTION</th>
+							<th>CUSTOMER</th>
+							<th>TYPE</th>
+							<th>QTY</th>
+							<th>AMOUNT</th>
+							<th>STATUS</th>
+							<th style="text-align: right;">TIMESTAMP</th>
+						</tr>
+					</thead>
+					<tbody id="transactionsBody">
+						<!-- Injected via JS -->
+						<tr>
+							<td colspan="7" style="text-align: center; padding: 20px;">Fetching transactions...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Footer -->
+			<footer class="site-footer">
+				<div class="footer-content">
+					<div class="footer-brand">
+						<span class="footer-brand-text">Ticketa</span>
+						<div class="contact-info">
+							<p class="contact-title">Contact Us:</p>
+							<p>Email: ticketa@gmail.com</p>
+							<p>Phone: +62 8224 0031</p>
+							<p>Address: Menara Matahari, Lt. 15, Lu City</p>
+						</div>
+					</div>
+					<div class="footer-links">
+						<h3>Platform</h3>
+						<a href="#">Become an Organizer</a>
+						<a href="#">Browse Categories</a>
+						<a href="#">Host an Event</a>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+				</div>
+			</footer>
+		</main>
+	</div>
+
+	<script src="/eopage/manageEvent/script.js" type="module"></script>
+</body>
+</html>

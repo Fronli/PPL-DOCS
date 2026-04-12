@@ -37,7 +37,7 @@ body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color
 .brand { text-decoration: none; display: flex; align-items: center; }
 
 .brand-logo {
-	height: 44px;
+	height: 32px;
 	width: auto;
 	object-fit: contain;
 }

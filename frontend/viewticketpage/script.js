@@ -136,7 +136,7 @@ function checkAuth() {
 			<div style="display: flex; align-items: center; gap: 24px;">
 				<div style="position: relative;" id="userProfileWrap">
 					<div style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-main); font-weight: 700; font-size: 0.95rem;" onclick="toggleDropdown(event)">
-						Hi, ${userName.split(' ')[0]}
+						${userName}
 						<svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M1 1L5 5L9 1"/>
 						</svg>
@@ -144,7 +144,7 @@ function checkAuth() {
 					</div>
 					
 					<div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-md); min-width: 160px; z-index: 100; overflow: hidden; text-align: left;">
-						<a href="#" style="display: block; padding: 12px 18px; color: var(--text-main); text-decoration: none; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid var(--line);">&boxbox; My Tickets</a>
+						<a href="#" style="display: block; padding: 12px 18px; color: var(--text-main); text-decoration: none; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid var(--line);">My Tickets</a>
 						<a href="#" onclick="logout(event)" style="display: block; padding: 12px 18px; color: #ef4444; text-decoration: none; font-size: 0.9rem; font-weight: 600;">&rarr; Logout</a>
 					</div>
 				</div>

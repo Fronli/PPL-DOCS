@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - Secure Checkout</title>
+	<link rel="stylesheet" href="/paymentpage/style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+		</div>
+
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#explore-section" id="exploreNavBtn">Explore Events</a>
+			<a href="/eo/dashboard" id="organizerNavBtn">Become an Organizer</a>
+		</nav>
+
+		<div class="nav-right" id="topActions">
+			<a class="login-link" id="loginBtn" href="/auth/login">Log In</a>
+		</div>
+	</header>
+
+	<main class="page-body">
+		<div class="header-section">
+			<h2>Secure Checkout</h2>
+		</div>
+
+		<div class="checkout-layout">
+			<!-- ─── LEFT: PAYMENT METHOD ─── -->
+			<div class="payment-column">
+				<div class="payment-card">
+					<h3>Payment Method</h3>
+					
+					<!-- Mock Form purely for visuals -->
+					<div class="payment-options">
+						<label class="radio-option active">
+							<input type="radio" name="paymethod" checked />
+							<span class="custom-radio"></span> Card
+						</label>
+						<label class="radio-option">
+							<input type="radio" name="paymethod" disabled />
+							<span class="custom-radio"></span> Bank
+						</label>
+						<label class="radio-option">
+							<input type="radio" name="paymethod" disabled />
+							<span class="custom-radio"></span> QRIS
+						</label>
+					</div>
+
+					<div class="mock-card-form">
+						<div class="form-group">
+							<label>CARD NUMBER</label>
+							<input type="text" value="6763 000 899" readonly />
+						</div>
+						<div class="form-group">
+							<label>CARD HOLDER NAME</label>
+							<input type="text" value="HANA NISRINA" readonly />
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label>EXPIRY DATE</label>
+								<input type="text" value="12 / 28" readonly />
+							</div>
+							<div class="form-group">
+								<label>CVC / CVV</label>
+								<input type="password" value="123" readonly />
+							</div>
+						</div>
+					</div>
+
+					<button class="btn-complete-payment" id="btnCompletePayment">Complete Payment • IDR 0</button>
+					<a href="#" class="cancel-link" onclick="history.back()">Cancel Transaction</a>
+
+					<div class="secure-notice">
+						<div class="flex-align">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="var(--gold-text)" stroke="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+							<strong>Secure Encryption Active</strong>
+						</div>
+						<p>This is a simulation. No real money will be charged to your card.</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- ─── RIGHT: ORDER SUMMARY ─── -->
+			<div class="summary-column">
+				<div class="summary-card">
+					<h3>Order Summary</h3>
+					
+					<div class="event-brief">
+						<div class="brief-poster" id="eventPoster"></div>
+						<div class="brief-info">
+							<h4 id="eventTitle">Loading...</h4>
+							<p class="date-text" id="eventDate">TBA</p>
+						</div>
+					</div>
+
+					<div class="summary-divider"></div>
+
+					<div class="summary-row">
+						<span class="row-label">Ticket Type</span>
+						<span class="row-val" id="summaryTicketType">-</span>
+					</div>
+					<div class="summary-row">
+						<span class="row-label">Quantity</span>
+						<span class="row-val"><span id="summaryQty">0</span> Tickets</span>
+					</div>
+					<div class="summary-row">
+						<span class="row-label">Platform Fee</span>
+						<span class="row-val">IDR 0.00</span>
+					</div>
+
+					<div class="total-bar">
+						<span class="total-label">Total</span>
+						<span class="total-val" id="summaryTotal">IDR 0</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-col brand-col">
+				<div class="footer-brand">Ticketa</div>
+				<p style="margin-top:20px; font-weight:700; color:var(--brand-navy);">Contact Us:</p>
+				<p>Email: ticketa@gmail.com</p>
+				<p>Phone: +62 8224 0031</p>
+				<p>Address: Menara Matahari, Lt. 15, Lu City</p>
+			</div>
+			<div class="footer-col">
+				<h4 style="color:var(--brand-navy); font-weight:800; font-size:1.1rem; margin-bottom: 20px;">Platform</h4>
+				<a href="/eo/dashboard">Become an Organizer</a>
+				<a href="/#explore">Browse Categories</a>
+				<a href="/eo/createEvent">Host an Event</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			&copy; 2026 Ticketa Platform. All rights reserved.
+		</div>
+	</footer>
+
+	<script src="/paymentpage/script.js"></script>
+</body>
+</html>

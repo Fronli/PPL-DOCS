@@ -11,29 +11,60 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.join(path.dirname(__filename), '../../');
 const DB_URL = process.env.DATABASE_URL;
 
-app.use(cors({ origin:['http://localhost:3000', 'http://127.0.0.1:3000'] }));
+app.use(cors({ origin: ['http://localhost:3000', 'http://127.0.0.1:3000'] }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
-app.use(express.static(path.join(__dirname, 'backend', 'src' , 'public')));
+app.use(express.static(path.join(__dirname, 'backend', 'src', 'public')));
 
-app.get('/', (req: Request, res: Response)=>{
-    res.sendFile(path.join(__dirname, 'frontend', 'homepage', 'index.html'));
+app.get('/', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'homepage', 'index.html'));
 });
 
 
-// EO Pages Routes
-    // Dashboard
-    app.get('/eo/dashboard', (req: Request, res: Response)=>{
-      res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'dashboard', 'index.html'));
-    });
 
-    // Create Event
-    app.get('/eo/createEvent', (req: Request, res: Response)=>{
-      res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'createEvent', 'index.html'));
-    });
+// User Pages Routes
+app.get('/search', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'searchpage', 'index.html'));
+});
+
+app.get('/payment/:eventId/:ticketTypeId', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'paymentpage', 'index.html'));
+});
+
+app.get('/event-detail/:id', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'eventdetailpage', 'index.html'));
+});
+
+// Checkout Page Route
+app.get('/checkout/:eventId/:ticketTypeId', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'ticketselectionpage', 'index.html'));
+});
+
+// View Ticket Page Route
+app.get('/view-ticket/:orderId', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'viewticketpage', 'index.html'));
+});
+
+// EO Pages Routes
+// Dashboard
+app.get('/eo/dashboard', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'dashboard', 'index.html'));
+});
+
+// Manage Event
+app.get('/eo/manageEvent', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'manageEvent', 'index.html'));
+});
+
+// Create Event
+app.get('/eo/createEvent', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'createEvent', 'index.html'));
+});
+
 
 
 // Admin Pages Routes
+
 
 
 //Routes 

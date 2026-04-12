@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Select Event - EO Dashboard</title>
+	<link rel="stylesheet" href="/eopage/manageEventList/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Topbar -->
+	<header class="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+			<div class="topbar-divider"></div>
+			<span class="organizer-title">Organizer Center</span>
+		</div>
+		<div class="nav-right" id="topActions">
+			<div class="user-profile-wrap">
+				<div class="user-text">
+					<span class="company-name" id="userCompanyName">Loading...</span>
+					<span class="verified-badge">Verified Organizer</span>
+				</div>
+				<div class="user-avatar" id="userAvatar">O</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="dashboard-layout">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<nav class="side-nav">
+				<a href="/eo/dashboard" class="nav-item">Dashboard Overview</a>
+				<a href="/eo/manageEvent" class="nav-item active">My Events</a>
+				<a href="/eo/createEvent" class="nav-item">Create Event</a>
+				<div class="nav-spacer" style="margin-top: 24px;"></div>
+			</nav>
+		</aside>
+
+		<!-- Main Content -->
+		<main class="main-content">
+			<!-- Header -->
+			<div class="page-header">
+				<h1>Manage Events</h1>
+				<p>Select which event you want to view the stats for, or edit its settings.</p>
+			</div>
+
+			<!-- Loading State -->
+			<div id="loading" class="loading-state">
+				Loading your events...
+			</div>
+
+			<!-- List Grid -->
+			<div class="events-grid" id="eventsGrid" style="display: none;">
+				<!-- Injected by script -->
+			</div>
+
+		<!-- Empty State -->
+			<div id="emptyState" class="empty-state" style="display: none;">
+				<div class="empty-icon"></div>
+				<h3>No Events Found</h3>
+				<p>You haven't created any events yet.</p>
+				<a href="/eo/createEvent" class="btn-primary"
+					style="display: inline-block; text-decoration: none; text-align: center; margin-top: 16px;">Create
+					First Event</a>
+			</div>
+			
+			<!-- Footer -->
+			<footer class="site-footer">
+				<div class="footer-content">
+					<div class="footer-brand">
+						<span class="footer-brand-text">Ticketa</span>
+						<div class="contact-info">
+							<p class="contact-title">Contact Us:</p>
+							<p>Email: ticketa@gmail.com</p>
+							<p>Phone: +62 8224 0031</p>
+							<p>Address: Menara Matahari, Lt. 15, Lippo Cikarang</p>
+						</div>
+					</div>
+					<div class="footer-links">
+						<h3>Platform</h3>
+						<a href="#">Become an Organizer</a>
+						<a href="#">Browse Categories</a>
+						<a href="#">Host an Event</a>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+				</div>
+			</footer>
+		</main>
+	</div>
+
+
+	<script src="/eopage/manageEventList/script.js" type="module"></script>
+</body>
+
+</html>

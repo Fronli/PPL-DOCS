@@ -19,10 +19,10 @@
 		<div class="nav-right" id="topActions">
 			<div class="user-profile-wrap">
 				<div class="user-text">
-					<span class="company-name">Candleligt Inc.</span>
+					<span class="company-name" id="userCompanyName">Candleligt Inc.</span>
 					<span class="verified-badge">Verified Organizer</span>
 				</div>
-				<div class="user-avatar"></div>
+				<div class="user-avatar" id="userAvatar">C</div>
 			</div>
 		</div>
 	</header>
@@ -32,7 +32,7 @@
 		<aside class="sidebar">
 			<nav class="side-nav">
 				<a href="/eo/dashboard" class="nav-item active">Dashboard Overview</a>
-				<a href="#" class="nav-item">My Events</a>
+				<a href="/eo/manageEvent" class="nav-item">My Events</a>
 				<a href="/eo/createEvent" class="nav-item" id="create_event_panel_button">Create Event</a>
 			</nav>
 		</aside>
@@ -73,7 +73,7 @@
 			<!-- Events Section -->
 			<section class="events-section">
 				<div class="events-header">
-					<h2>Manage Events</h2>
+					<h2>All Events</h2>
 				</div>
 
 				<div class="table-container">
@@ -101,9 +101,7 @@
 			<footer class="site-footer">
 				<div class="footer-content">
 					<div class="footer-brand">
-						<a href="/" class="footer-logo">
-							<img src="/images/icon/icon.png" alt="Ticketa Logo" />
-						</a>
+						<span class="footer-brand-text">Ticketa</span>
 						<div class="contact-info">
 							<p class="contact-title">Contact Us:</p>
 							<p>Email: ticketa@gmail.com</p>

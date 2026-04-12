@@ -347,7 +347,8 @@ textarea.form-input {
 }
 
 .badge-vip.gold {
-	background: #1E3A8A; /* A deep blue representing Gold variant in the image */
+	background: #1E3A8A;
+	/* A deep blue representing Gold variant in the image */
 }
 
 .badge-regular {
@@ -407,6 +408,7 @@ textarea.form-input {
 
 /* FOOTER */
 .site-footer {
+	margin-top: 60px;
 	padding-top: 40px;
 	border-top: 1px solid var(--line);
 }

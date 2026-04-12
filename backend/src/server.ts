@@ -45,6 +45,11 @@ app.get('/view-ticket/:orderId', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'viewticketpage', 'index.html'));
 });
 
+// My Tickets Page Route
+app.get('/my-tickets', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'ticketlistpage', 'index.html'));
+});
+
 // EO Pages Routes
 // Dashboard
 app.get('/eo/dashboard', (req: Request, res: Response) => {

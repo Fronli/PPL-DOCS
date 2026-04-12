@@ -30,57 +30,10 @@ export const createOrder = async (req: Request, res: Response) => {
         const newOrder = await prisma.order.create({
             data: {
                 userId: userId,
-                status: 'PENDING',
+                status: 'UNPAID',
                 total: total
             }
         });
-
-        // Decrement quota temporarily
-        await prisma.ticketType.update({
-            where: { id: ticketType.id },
-            data: { quota: ticketType.quota - quantity }
-        });
-
-        // Generate tickets linked to this order
-        const ticketsData = Array.from({ length: quantity }).map((_, i) => ({
-            qrCode: `QR-${newOrder.id}-${ticketType.id}-${Date.now()}-${i}`,
-            eventId: Number(eventId),
-            ticketTypeId: ticketType.id,
-            orderId: newOrder.id,
-            status: 'VALID' as const
-        }));
-
-        await prisma.ticket.createMany({ data: ticketsData });
-
-        // Set 5 minute expiry timer
-        setTimeout(async () => {
-            try {
-                const checkOrder = await prisma.order.findUnique({ where: { id: newOrder.id } });
-                if (checkOrder && checkOrder.status === 'PENDING') {
-                    // Mark expired
-                    await prisma.order.update({
-                        where: { id: newOrder.id },
-                        data: { status: 'EXPIRED' }
-                    });
-
-                    // Restore quota
-                    await prisma.ticketType.update({
-                        where: { id: ticketType.id },
-                        data: { quota: { increment: quantity } }
-                    });
-
-                    // Cancel tickets
-                    await prisma.ticket.updateMany({
-                        where: { orderId: newOrder.id },
-                        data: { status: 'CANCELLED' }
-                    });
-
-                    console.log(`Order ${newOrder.id} automatically expired due to 5 mins timeout.`);
-                }
-            } catch (err) {
-                console.error("Error in auto-expiry timer:", err);
-            }
-        }, 5 * 60 * 1000); // 5 minutes
 
         res.json({ message: "Order created successfully", order: newOrder });
 
@@ -92,7 +45,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
 
 export const completePayment = async (req: Request, res: Response) => {
-    const { orderId } = req.body;
+    const { orderId, eventId, ticketTypeId, quantity } = req.body;
     const userId = req.user?.id;
 
     console.log("masuk complete payment");
@@ -102,18 +55,27 @@ export const completePayment = async (req: Request, res: Response) => {
     try {
         const order = await prisma.order.findUnique({ 
             where: { id: Number(orderId) },
-            include: { tickets: true }
         });
 
         if (!order) return res.status(404).json({ message: "Order not found" });
         if (order.userId !== userId) return res.status(403).json({ message: "Forbidden" });
 
-        if (order.status === 'EXPIRED') {
-            return res.status(400).json({ message: "This order has expired." });
-        }
+
 
         if (order.status === 'PAID') {
             return res.status(400).json({ message: "This order is already paid." });
+        }
+
+        // Validate payload against order total
+        const ticketType = await prisma.ticketType.findUnique({ where: { id: Number(ticketTypeId) } });
+        if (!ticketType) return res.status(404).json({ message: "Ticket type not found" });
+        
+        if (ticketType.price * Number(quantity) !== order.total) {
+             return res.status(400).json({ message: "Invalid payment payload" });
+        }
+
+        if (ticketType.quota < Number(quantity)) {
+             return res.status(400).json({ message: "Sorry, tickets sold out while you were paying." });
         }
 
         const updatedOrder = await prisma.order.update({
@@ -130,25 +92,32 @@ export const completePayment = async (req: Request, res: Response) => {
             }
         });
 
-        // Generate QR code for each ticket
-        if (order.tickets && order.tickets.length > 0) {
-            for (const ticket of order.tickets) {
-                try {
-                    // Generate a base64 encoded png representing the qrCode string
-                    const qrBase64 = await QRCode.toDataURL(ticket.qrCode);
-                    
-                    // Update database
-                    await prisma.ticket.update({
-                        where: { id: ticket.id },
-                        data: { qrCode: qrBase64 }
-                    });
-                } catch(qrErr) {
-                    console.error("Error generating QR code for ticket ID " + ticket.id, qrErr);
-                }
-            }
+        // Decrement quota permanently
+        await prisma.ticketType.update({
+            where: { id: ticketType.id },
+            data: { quota: ticketType.quota - Number(quantity) }
+        });
+
+        // Generate tickets linked to this order
+        const createdTickets = [];
+        for (let i = 0; i < Number(quantity); i++) {
+             // We can just use timestamp and random for unique string, then generate the base64 qr
+             const qrString = `QR-${order.id}-${ticketType.id}-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 5)}`;
+             const qrBase64 = await QRCode.toDataURL(qrString);
+
+             const ticket = await prisma.ticket.create({
+                 data: {
+                     qrCode: qrBase64,
+                     eventId: Number(eventId),
+                     ticketTypeId: ticketType.id,
+                     orderId: order.id,
+                     status: 'VALID'
+                 }
+             });
+             createdTickets.push(ticket);
         }
 
-        res.json({ message: "Payment completed successfully", order: updatedOrder });
+        res.json({ message: "Payment completed successfully", order: { ...updatedOrder, tickets: createdTickets } });
     } catch (error) {
         console.error("Error completing payment:", error);
         res.status(500).json({ message: "Failed to process payment" });
@@ -187,6 +156,38 @@ export const getOrderTickets = async (req: Request, res: Response) => {
     }
 };
 
+//Get All Users Ticket
+export const getMyTicket = async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+
+    console.log(userId);
+    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+    try {
+        const orders = await prisma.order.findMany({
+            where: { 
+                userId,
+                status: 'PAID'
+            },
+            include: {
+                tickets: {
+                    include: {
+                        event: true,
+                        ticketType: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+
+        res.json({ orders });
+    } catch (error) {
+        console.error("Error fetching user tickets:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 
 export const getEvents = async (req: Request, res: Response) => {
     const { cursor, category, city, search } = req.query;

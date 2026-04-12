@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+	--brand-navy: #1E3A8A;
+	--brand-blue: #2563EB;
+	--bg-main: #F8FAFC;
+	--surface: #FFFFFF;
+	--text-main: #0F172A;
+	--text-muted: #64748B;
+	--line: #E2E8F0;
+	--orange-accent: #F97316;
+	--green-success: #10B981;
+	--green-bg: #D1FAE5;
+	--green-text: #065F46;
+	--badge-grey-bg: #F1F5F9;
+	--badge-grey-text: #64748B;
+	
+	--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	--radius-lg: 12px;
+	--radius-md: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column;}
+
+/* ─── TOPBAR ─── */
+.topbar {
+	display: flex; justify-content: space-between; align-items: center;
+	height: 72px; padding: 0 40px; background: var(--surface);
+	border-bottom: 1px solid var(--line);
+}
+.nav-left, .nav-right { flex: 1; display: flex; align-items: center; }
+.nav-right { justify-content: flex-end; }
+.brand { text-decoration: none; display: flex; align-items: center; }
+.nav-center { display: flex; gap: 32px; }
+.nav-center a { text-decoration: none; color: var(--text-main); font-size: 0.95rem; font-weight: 600; transition: color 0.2s; }
+.nav-center a:hover { color: var(--brand-blue); }
+
+/* ─── PAGE BODY ─── */
+.page-body {
+	flex: 1;
+	padding: 40px 20px 100px;
+}
+
+.container {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.page-header {
+	background: var(--surface);
+	padding: 32px 40px;
+	border-radius: var(--radius-md);
+	border: 1px solid var(--line);
+	margin-bottom: 32px;
+	box-shadow: var(--shadow-sm);
+}
+
+.page-title {
+	font-size: 1.75rem;
+	font-weight: 800;
+	color: var(--brand-navy);
+	margin-bottom: 8px;
+}
+
+.page-subtitle {
+	font-size: 0.95rem;
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+/* ─── TICKET LIST ─── */
+.ticket-list {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.list-card {
+	display: flex;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: var(--shadow-sm);
+	transition: box-shadow 0.2s;
+}
+
+.list-card:hover {
+	box-shadow: var(--shadow-md);
+}
+
+.card-poster {
+	width: 220px;
+	background-size: cover;
+	background-position: center;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card-poster::after {
+	content: '';
+	position: absolute;
+	top: 0; left: 0; width: 100%; height: 100%;
+	background: rgba(30, 58, 138, 0.4);
+}
+
+.poster-date {
+	position: relative;
+	z-index: 2;
+	color: white;
+	font-weight: 800;
+	font-size: 1.1rem;
+	text-align: center;
+	text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.card-body {
+	flex: 1;
+	padding: 24px 32px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 24px;
+}
+
+.card-info {
+	flex: 1;
+}
+
+.card-title {
+	font-size: 1.25rem;
+	font-weight: 800;
+	color: var(--brand-navy);
+	margin-bottom: 12px;
+}
+
+.info-grid {
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	gap: 8px 32px;
+	font-size: 0.85rem;
+	margin-bottom: 16px;
+	justify-content: start;
+}
+
+.info-item .lbl {
+	font-weight: 700;
+	color: var(--text-main);
+	margin-right: 4px;
+}
+
+.info-item .val {
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+.badge {
+	display: inline-block;
+	padding: 4px 12px;
+	border-radius: 20px;
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+.badge.active {
+	background-color: var(--green-bg);
+	color: var(--green-text);
+}
+
+.badge.used {
+	background-color: var(--badge-grey-bg);
+	color: var(--badge-grey-text);
+}
+
+.card-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 160px;
+}
+
+.btn-primary {
+	width: 100%;
+	background: #F97316;
+	color: white;
+	border: none;
+	padding: 12px;
+	border-radius: var(--radius-md);
+	font-size: 0.9rem;
+	font-weight: 700;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	transition: background 0.2s;
+}
+
+.btn-primary:hover {
+	background: #EA580C;
+}
+
+.btn-secondary {
+	width: 100%;
+	background: transparent;
+	color: var(--brand-navy);
+	border: 1px solid var(--brand-navy);
+	padding: 12px;
+	border-radius: var(--radius-md);
+	font-size: 0.9rem;
+	font-weight: 700;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+	background: #F8FAFC;
+}
+
+
+/* ─── FOOTER ─── */
+.footer { background: var(--surface); border-top: 1px solid var(--line); margin-top: auto; padding: 60px 40px 20px; }
+.footer-container { display: flex; justify-content: space-between; max-width: 1000px; margin: 0 auto; gap: 60px; margin-bottom: 60px; }
+.footer-col { flex: 1; }
+.brand-col { flex: 1.5; }
+.footer-brand { font-size: 2rem; font-weight: 800; color: var(--brand-navy); }
+.footer-col p, .footer-col a { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px; display: block; text-decoration: none; }
+.footer-col a:hover { color: var(--brand-blue); }
+.footer-bottom { text-align: center; border-top: 1px solid var(--line); padding-top: 24px; color: var(--text-muted); font-size: 0.85rem; max-width: 1000px; margin: 0 auto; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+	.card-body {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.card-actions {
+		width: 100%;
+		flex-direction: row;
+	}
+	.list-card {
+		flex-direction: column;
+	}
+	.card-poster {
+		width: 100%;
+		height: 120px;
+	}
+}

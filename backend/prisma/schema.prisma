@@ -24,10 +24,8 @@ enum EOApplicationStatus {
 }
 
 enum OrderStatus {
-  PENDING
+  UNPAID
   PAID
-  EXPIRED
-  CANCELLED
 }
 
 enum PaymentStatus {
@@ -133,7 +131,7 @@ model TicketType {
 model Order {
   id        Int         @id @default(autoincrement())
   userId    Int
-  status    OrderStatus @default(PENDING)
+  status    OrderStatus @default(UNPAID)
 
   total     Float
 

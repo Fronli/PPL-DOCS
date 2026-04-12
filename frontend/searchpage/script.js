@@ -200,7 +200,7 @@ function checkAuth() {
 						<div style="width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: white; display: grid; place-items: center; font-size: 1rem; margin-left: 4px;">${userName.charAt(0).toUpperCase()}</div>
 					</div>
 					<div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); min-width: 160px; z-index: 100; overflow: hidden;">
-						<a href="#" style="display: block; padding: 12px 18px; color: var(--text-main); font-size: 0.9rem; font-weight: 600; text-decoration:none;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fff'">My Tickets</a>
+						<a href="/my-tickets" style="display: block; padding: 12px 18px; color: var(--text-main); font-size: 0.9rem; font-weight: 600; text-decoration:none;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fff'">My Tickets</a>
 						<a href="#" onclick="logout(event)" style="display: block; padding: 12px 18px; color: #ef4444; font-size: 0.9rem; font-weight: 600; text-decoration:none;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='#fff'">Logout</a>
 					</div>
 				</div>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - My Tickets</title>
+	<link rel="stylesheet" href="/ticketlistpage/style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" style="height: 32px; width: auto; object-fit: contain;" />
+			</a>
+		</div>
+
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#explore-section" id="exploreNavBtn">Explore Events</a>
+			<a href="/eo/dashboard" id="organizerNavBtn">Become an Organizer</a>
+		</nav>
+
+		<div class="nav-right" id="topActions">
+			<div class="user-greeting">
+				<span class="greeting-text" id="greetingName">Loading...</span>
+				<div class="user-avatar" id="greetingInitial">?</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- ─── MAIN CONTENT ─── -->
+	<main class="page-body">
+		<div class="container">
+			<div class="page-header">
+				<h1 class="page-title">My Tickets</h1>
+				<p class="page-subtitle">View and manage your purchased event tickets.</p>
+			</div>
+
+			<div class="ticket-list" id="ticketListContainer">
+				<p style="color: var(--text-muted); font-weight: 500;">Loading your tickets...</p>
+			</div>
+		</div>
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-col brand-col">
+				<span class="footer-brand">Ticketa</span>
+				<p style="margin-top:20px;font-weight:bold;color:var(--brand-navy);">Contact Us:</p>
+				<p>Email: ticketa@gmail.com</p>
+				<p>Phone: +62 8224 0031</p>
+				<p>Address: Menara Matahari, Lt. 15, Lu City</p>
+			</div>
+			<div class="footer-col">
+				<h4 style="margin-bottom:20px;color:var(--brand-navy);font-size:1.1rem;font-weight:800;">Platform</h4>
+				<a href="/eo/dashboard">Become an Organizer</a>
+				<a href="/#explore-section">Browse Categories</a>
+				<a href="/eo/createEvent">Host an Event</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script src="/ticketlistpage/script.js" type="module"></script>
+</body>
+</html>

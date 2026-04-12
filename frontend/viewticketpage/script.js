@@ -94,10 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
 							</div>
 						</div>
 						
-						<button class="btn-download" onclick="window.print()">
+						<a class="btn-download" href="${ticket.qrCode}" download="Ticketa-QR-${ticket.id}.png" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-							Download PDF
-						</button>
+							Download QR
+						</a>
 					</div>
 				</div>`;
 
@@ -144,7 +144,7 @@ function checkAuth() {
 					</div>
 					
 					<div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-md); min-width: 160px; z-index: 100; overflow: hidden; text-align: left;">
-						<a href="#" style="display: block; padding: 12px 18px; color: var(--text-main); text-decoration: none; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid var(--line);">My Tickets</a>
+						<a href="/my-tickets" style="display: block; padding: 12px 18px; color: var(--text-main); text-decoration: none; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid var(--line);">My Tickets</a>
 						<a href="#" onclick="logout(event)" style="display: block; padding: 12px 18px; color: #ef4444; text-decoration: none; font-size: 0.9rem; font-weight: 600;">&rarr; Logout</a>
 					</div>
 				</div>

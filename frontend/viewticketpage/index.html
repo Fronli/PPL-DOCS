@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - Digital Ticket</title>
+	<link rel="stylesheet" href="/viewticketpage/style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<h1 style="color: var(--brand-navy); font-size: 24px; font-weight: 800; margin: 0;">Ticketa</h1>
+			</a>
+		</div>
+
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#explore-section">Explore Events</a>
+			<a href="/eo/createEvent">Become an Organizer</a>
+		</nav>
+
+		<div class="nav-right" id="topActions">
+			<div class="user-greeting">
+				<span class="greeting-text" id="greetingName">Loading...</span>
+				<div class="user-avatar" id="greetingInitial">?</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- ─── MAIN CONTENT ─── -->
+	<main class="page-body">
+		<div class="ticket-wrapper">
+			<!-- Header texts -->
+			<div class="content-header">
+				<h1 class="page-title">Digital Ticket</h1>
+				<p class="page-subtitle">Your entry is confirmed! Simply show this QR code upon arrival.</p>
+			</div>
+
+			<!-- Dynamic Tickets Container -->
+			<div id="ticketsContainer" style="display:flex; flex-direction:column; gap:40px; align-items:center;">
+				<div style="color: var(--text-muted); font-weight:600; min-height: 200px;">Generasi tiket digital...</div>
+			</div>
+			
+			<!-- Footer of ticket area -->
+			<div class="transaction-footer">
+				<p class="transaction-info">Transaction ID: <span id="transId">...</span> &bull; Purchased on <span id="transDate">...</span></p>
+				<a href="/" class="back-link">&larr; Back to My Dashboard</a>
+			</div>
+			
+		</div>
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-col brand-col">
+				<span class="footer-brand">Ticketa</span>
+				<p style="margin-top:20px;font-weight:bold;color:var(--brand-navy);">Contact Us:</p>
+				<p>Email: ticketa@gmail.com</p>
+				<p>Phone: +62 8224 0031</p>
+				<p>Address: Menara Matahari, Lt. 15, Lu City</p>
+			</div>
+			<div class="footer-col">
+				<h4 style="margin-bottom:20px;color:var(--brand-navy);font-size:1.1rem;font-weight:800;">Platform</h4>
+				<a href="/eo/dashboard">Become an Organizer</a>
+				<a href="/#explore-section">Browse Categories</a>
+				<a href="/eo/createEvent">Host an Event</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script src="/viewticketpage/script.js" type="module"></script>
+</body>
+</html>

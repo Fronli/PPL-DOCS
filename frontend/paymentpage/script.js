@@ -1,36 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 	// Parse URL params
-	// URL expected: /checkout/:eventId/:ticketTypeId
+	// URL expected: /payment/:eventId/:ticketTypeId?qty=N
 	const pathParts = window.location.pathname.split('/').filter(p => p);
-	// pathParts -> ["checkout", "1", "2"]
+	// pathParts -> ["payment", "1", "2"]
 	const eventId = pathParts[1];
 	const ticketTypeId = pathParts[2];
 	
-	// Default starting state
-	let currentTicketType = null;
-	let quantity = 1; 
-	let pricePerTicket = 0;
-	let maxQuota = 1;
+	const params = new URLSearchParams(window.location.search);
+	const quantityStr = params.get('qty');
+	const quantity = quantityStr ? parseInt(quantityStr) : 1;
 
 	// DOM Elements
 	const elEventTitle = document.getElementById('eventTitle');
 	const elEventPoster = document.getElementById('eventPoster');
 	const elEventDate = document.getElementById('eventDate');
-	const elEventLocation = document.getElementById('eventLocation');
-	
-	const elTicketName = document.getElementById('ticketName');
-	const elTicketPrice = document.getElementById('ticketPrice');
-	const elAvailableSeats = document.getElementById('availableSeats');
-	
-	const btnMinus = document.getElementById('btnMinus');
-	const btnPlus = document.getElementById('btnPlus');
-	const qtyVal = document.getElementById('qtyVal');
 	
 	const summaryTicketType = document.getElementById('summaryTicketType');
-	const summaryUnitPrice = document.getElementById('summaryUnitPrice');
 	const summaryQty = document.getElementById('summaryQty');
-	const summarySubtotal = document.getElementById('summarySubtotal');
-	const btnContinue = document.getElementById('btnContinue');
+	const summaryTotal = document.getElementById('summaryTotal');
+	const btnCompletePayment = document.getElementById('btnCompletePayment');
 
 	function formatIDR(amount) {
 		return new Intl.NumberFormat('id-ID', {
@@ -44,85 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	function formatDateStr(dateStr) {
 		if (!dateStr) return "TBA";
 		return new Intl.DateTimeFormat("en-US", {
-			weekday: "long",
+			weekday: "short",
 			month: "short",
-			day: "2-digit",
-			year: "numeric"
+			day: "numeric",
+			hour: "2-digit",
+			minute: "2-digit"
 		}).format(new Date(dateStr));
 	}
-
-	function updateUI() {
-		// Update Quantity Display
-		qtyVal.textContent = quantity;
-		summaryQty.textContent = quantity;
-		
-		// Button states
-		btnMinus.disabled = quantity <= 1;
-		if(quantity <= 1) {
-			btnMinus.style.opacity = '0.5';
-			btnMinus.style.cursor = 'not-allowed';
-		} else {
-			btnMinus.style.opacity = '1';
-			btnMinus.style.cursor = 'pointer';
-		}
-
-		// Prevent buying more than available
-		btnPlus.disabled = quantity >= maxQuota;
-		if(quantity >= maxQuota) {
-			btnPlus.style.opacity = '0.5';
-			btnPlus.style.cursor = 'not-allowed';
-		} else {
-			btnPlus.style.opacity = '1';
-			btnPlus.style.cursor = 'pointer';
-		}
-
-		// Update Pricing
-		const subtotal = quantity * pricePerTicket;
-		summarySubtotal.textContent = formatIDR(subtotal);
-	}
-
-	// Internal Actions
-	btnMinus.addEventListener('click', () => {
-		if (quantity > 1) {
-			quantity--;
-			updateUI();
-		}
-	});
-
-	btnPlus.addEventListener('click', () => {
-		if (quantity < maxQuota) {
-			quantity++;
-			updateUI();
-		}
-	});
-
-	btnContinue.addEventListener('click', async() => {
-		// Simulate redirect to payment simulation page
-		const token = localStorage.getItem("token");
-		// fetch to backend to insert the newOrder
-		const res = await fetch(`/event/order/createOrder`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${token}`
-			},
-			body: JSON.stringify({
-				eventId: eventId,
-				ticketTypeId: ticketTypeId,
-				quantity: quantity
-			})
-		})
-		.then(res => res.json())
-		.then(data => {
-			if (data.message && !data.order) throw new Error(data.message);
-			window.location.href = `/payment/${eventId}/${ticketTypeId}?qty=${quantity}&orderId=${data.order.id}`;
-		})
-		.catch(err => {
-			console.error(err);
-			alert(`Checkout failed: ${err.message}`);
-		});
-
-	});
 
 	async function loadEventData() {
 		if (!eventId || !ticketTypeId) {
@@ -136,40 +52,74 @@ document.addEventListener('DOMContentLoaded', () => {
 			const event = await res.json();
 			
 			// Find the selected ticket type
-			currentTicketType = event.ticketTypes.find(t => t.id === Number(ticketTypeId));
+			const currentTicketType = event.ticketTypes.find(t => t.id === Number(ticketTypeId));
 			if (!currentTicketType) {
 				alert("Ticket type not found.");
 				return;
 			}
 			
-			// Set data configurations
-			pricePerTicket = currentTicketType.price;
-			maxQuota = currentTicketType.quota > 0 ? (currentTicketType.quota > 12 ? 12 : currentTicketType.quota) : 0; // Cap at 12 or available seats
-
 			// Populate UI
 			const imageUrl = event.posterUrl || 'https://images.unsplash.com/photo-1540039155732-d6749b93223e?auto=format&fit=crop&w=1920&q=80';
 			elEventPoster.style.backgroundImage = `url('${imageUrl}')`;
 			
 			elEventTitle.textContent = event.title;
 			elEventDate.textContent = formatDateStr(event.eventDate);
-			elEventLocation.textContent = event.venue ? `${event.venue}, ${event.city}` : event.city;
-			
-			elTicketName.textContent = currentTicketType.name;
-			const priceStr = formatIDR(pricePerTicket);
-			elTicketPrice.textContent = priceStr;
-			
-			elAvailableSeats.textContent = currentTicketType.quota;
 			
 			summaryTicketType.textContent = currentTicketType.name;
-			summaryUnitPrice.textContent = priceStr;
+			summaryQty.textContent = quantity;
 			
-			updateUI();
+			const subtotal = quantity * currentTicketType.price;
+			const totalStr = formatIDR(subtotal);
+			
+			summaryTotal.textContent = totalStr;
+			btnCompletePayment.textContent = `Complete Payment • ${totalStr}`;
 
 		} catch(err) {
 			console.error(err);
 			elEventTitle.textContent = "Error loading event";
 		}
 	}
+
+	btnCompletePayment.addEventListener('click', async () => {
+		const orderId = params.get('orderId');
+		if (!orderId) {
+			alert("Missing Order ID");
+			return;
+		}
+
+		// SIMULATION BEHAVIOR with real backend call
+		const origText = btnCompletePayment.textContent;
+		btnCompletePayment.textContent = "Processing...";
+		btnCompletePayment.disabled = true;
+		
+		const token = localStorage.getItem("token");
+		
+		try {
+			const res = await fetch(`/event/order/completePayment`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${token}`
+				},
+				body: JSON.stringify({ orderId: orderId })
+			});
+			
+			const data = await res.json();
+			
+			if (!res.ok) {
+				throw new Error(data.message || "Failed to complete payment");
+			}
+			
+			setTimeout(() => {
+				window.location.href = "/view-ticket/" + orderId;
+			}, 1000);
+			
+		} catch (err) {
+			alert(err.message);
+			btnCompletePayment.textContent = origText;
+			btnCompletePayment.disabled = false;
+		}
+	});
 
 	// Initialize UI data load
 	loadEventData();
@@ -192,14 +142,14 @@ function checkAuth() {
 
 		if (!token || !userStr) {
 			organizerNavBtn.href = "/auth/login";
+			// If viewing payment page without token, redirect to login
+			window.location.href = "/auth/login";
 		} else if (role === "EO") {
 			organizerNavBtn.textContent = "EO Dashboard";
 			organizerNavBtn.href = "/eo/dashboard";
 		} else if (role === "ADMIN") {
 			organizerNavBtn.textContent = "Admin Dashboard";
 			organizerNavBtn.href = "/admin/dashboard";
-		} else {
-			organizerNavBtn.href = "#";
 		}
 	}
 

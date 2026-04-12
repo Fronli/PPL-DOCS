@@ -168,7 +168,6 @@ model Payment {
 model Ticket {
   id          Int          @id @default(autoincrement())
 
-  seatNumber  String
   qrCode      String       @unique
 
   status      TicketStatus @default(VALID)
@@ -183,6 +182,4 @@ model Ticket {
   order       Order @relation(fields: [orderId], references: [id])
 
   createdAt   DateTime @default(now())
-
-  @@unique([eventId, seatNumber])
-}
+}

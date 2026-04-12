@@ -27,6 +27,10 @@ app.get('/search', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'searchpage', 'index.html'));
 });
 
+app.get('/payment/:eventId/:ticketTypeId', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'paymentpage', 'index.html'));
+});
+
 app.get('/event-detail/:id', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'eventdetailpage', 'index.html'));
 });
@@ -36,8 +40,10 @@ app.get('/checkout/:eventId/:ticketTypeId', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'ticketselectionpage', 'index.html'));
 });
 
-
-
+// View Ticket Page Route
+app.get('/view-ticket/:orderId', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'viewticketpage', 'index.html'));
+});
 
 // EO Pages Routes
 // Dashboard

@@ -139,6 +139,7 @@ async function loadManageEventData() {
 			const urlParams = new URLSearchParams(window.location.search);
 			eventId = urlParams.get('id');
 			if(!eventId || isNaN(eventId)){
+				console.log(`eventId: ${eventId}`);
 				alert("Invalid Event ID");
 				return;
 			}

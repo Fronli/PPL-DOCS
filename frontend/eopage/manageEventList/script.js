@@ -145,7 +145,7 @@ function populateUI(data) {
 					</div>
 				</div>
                 <!-- Redirects to detail manage page -->
-				<a href="/eo/manageEvent/${ev.id}" class="btn-primary">Manage</a>
+				<a href="/eo/manageEvent?id=${ev.id}" class="btn-primary">Manage</a>
 			</div>
 		`;
 		

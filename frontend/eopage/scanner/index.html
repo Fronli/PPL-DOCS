@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ticket Scanner - Ticketa</title>
+	<link rel="stylesheet" href="/eopage/scanner/style.css">
+</head>
+<body>
+	<!-- Topbar -->
+	<header class="topbar">
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+			<div class="topbar-divider"></div>
+			<span class="organizer-title">Organizer Center</span>
+		</div>
+		<div class="nav-right" id="topActions">
+			<div class="user-profile-wrap">
+				<div class="user-text">
+					<span class="company-name" id="userCompanyName">Organizer</span>
+					<span class="verified-badge">Verified Organizer</span>
+				</div>
+				<div class="user-avatar" id="userAvatar">O</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="dashboard-layout">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<nav class="side-nav">
+				<a href="/eo/dashboard" class="nav-item">Dashboard Overview</a>
+				<a href="/eo/manageEventList" class="nav-item">My Events</a>
+				<a href="/eo/scanner" class="nav-item active">Check-In Ticket</a>
+				<a href="/eo/createEvent" class="nav-item">Create Event</a>
+			</nav>
+		</aside>
+
+		<!-- Main Content -->
+		<main class="main-content">
+			<!-- Page Title -->
+			<div class="page-header">
+				<h1>Ticket Scanner</h1>
+				<p>Verify and check-in attendees by uploading their ticket QR code or entering the reference ID.</p>
+			</div>
+
+			<!-- Scanner Area -->
+			<div class="scanner-grid">
+				<!-- Left Panel: Upload & Manual Entry -->
+				<div class="scanner-left">
+					<!-- Drag & Drop Zone -->
+					<div class="dropzone" id="dropzone">
+						<div class="dropzone-content">
+							<div class="dropzone-icon">
+								<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+									<polyline points="17 8 12 3 7 8"/>
+									<line x1="12" y1="3" x2="12" y2="15"/>
+								</svg>
+							</div>
+							<h3>Drag & Drop QR Code</h3>
+							<p>or upload a file (PNG, JPG, PDF)</p>
+							<label for="fileInput" class="btn-browse">Browse Files</label>
+							<input type="file" id="fileInput" accept="image/*" hidden />
+						</div>
+						<!-- Image Preview (hidden by default) -->
+						<div class="dropzone-preview" id="dropzonePreview" style="display:none;">
+							<img id="previewImage" src="" alt="Preview" />
+							<button class="btn-clear" id="clearPreview">✕ Clear</button>
+						</div>
+					</div>
+
+					<p class="process-label" id="processLabel">Ready to Process</p>
+					<p class="process-sub" id="processSub">Upload the attendee's digital ticket or enter ID manually</p>
+
+					<!-- Manual Entry -->
+					<div class="manual-entry">
+						<span class="manual-label">MANUAL ENTRY</span>
+						<div class="manual-input-row">
+							<input type="text" id="manualInput" placeholder="Enter Ticket Reference ID (e.g. TK-99827)" />
+							<button class="btn-search" id="searchBtn">Search</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Right Panel: Ticket Details -->
+				<div class="scanner-right" id="ticketDetailsPanel">
+					<div class="ticket-card" id="ticketCard">
+						<div class="ticket-card-header">
+							<div class="ticket-dot" id="ticketDot"></div>
+							<span class="ticket-card-title">Ticket Details</span>
+						</div>
+
+						<div class="detail-placeholder" id="detailPlaceholder">
+							<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+								<rect x="2" y="6" width="20" height="12" rx="2"/>
+								<path d="M2 10h20"/>
+								<path d="M6 14h.01"/>
+								<path d="M10 14h4"/>
+							</svg>
+							<p>Upload a ticket or enter a reference ID to view ticket details here.</p>
+						</div>
+
+						<div class="detail-content" id="detailContent" style="display:none;">
+							<div class="detail-row">
+								<span class="detail-label">ATTENDEE NAME</span>
+								<span class="detail-value" id="attendeeName">—</span>
+							</div>
+							<div class="detail-row">
+								<span class="detail-label">TICKET ID</span>
+								<span class="detail-value highlight" id="ticketId">—</span>
+							</div>
+							<div class="detail-row-split">
+								<div>
+									<span class="detail-label">TYPE</span>
+									<span class="detail-value" id="ticketType">—</span>
+								</div>
+								<div>
+									<span class="detail-label">SEAT</span>
+									<span class="detail-value" id="ticketSeat">—</span>
+								</div>
+							</div>
+							<div class="detail-row status-row">
+								<span class="detail-label">CHECK-IN STATUS</span>
+								<span class="status-badge" id="statusBadge">—</span>
+							</div>
+
+							<button class="btn-checkin" id="confirmCheckinBtn" disabled>CONFIRM CHECK-IN</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Footer -->
+			<footer class="site-footer">
+				<div class="footer-content">
+					<div class="footer-brand">
+						<span class="footer-brand-text">Ticketa</span>
+						<div class="contact-info">
+							<p class="contact-title">Contact Us:</p>
+							<p>Email: ticketa@gmail.com</p>
+							<p>Phone: +62 8224 0031</p>
+							<p>Address: Menara Matahari, Lt. 15, Lu City</p>
+						</div>
+					</div>
+					<div class="footer-links">
+						<h3>Platform</h3>
+						<a href="/applyEopage">Become an Organizer</a>
+						<a href="#">Browse Categories</a>
+						<a href="#">Host an Event</a>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+				</div>
+			</footer>
+		</main>
+	</div>
+
+	<!-- Notification Modal -->
+	<div class="modal-overlay" id="notifModal">
+		<div class="modal-card">
+			<div class="modal-header" id="notifTitle">Notification</div>
+			<div class="modal-body" id="notifMessage">—</div>
+			<div class="modal-footer">
+				<button class="btn-primary" onclick="closeNotifModal()">Okay</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+	<script src="/eopage/scanner/script.js" type="module"></script>
+</body>
+</html>

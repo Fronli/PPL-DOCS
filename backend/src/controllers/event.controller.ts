@@ -61,7 +61,6 @@ export const completePayment = async (req: Request, res: Response) => {
         if (order.userId !== userId) return res.status(403).json({ message: "Forbidden" });
 
 
-
         if (order.status === 'PAID') {
             return res.status(400).json({ message: "This order is already paid." });
         }

@@ -1,217 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Ticketa</title>
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Local Stylesheet -->
-    <link rel="stylesheet" href="adminpage/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/adminpage/style.css">
 </head>
-
 <body>
 
     <!-- TOP NAVIGATION -->
-    <header class="top-nav">
-        <div class="nav-container">
-            <div class="nav-left">
-                <div class="logo">
-                    <a href="/" style="text-decoration: none; display: flex; align-items: center;">
-                        <img src="/images/icon/icon.png" alt="Ticketa"
-                            style="width: 28px; height: 28px; object-fit: contain;" />
-                    </a>
-                </div>
-                <div class="divider"></div>
-                <div class="page-title">Admin Console Control</div>
-            </div>
+    <header class="topbar" id="topbar">
+        <div class="nav-left">
+            <a class="brand" href="/">
+                <img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" style="height: 28px; width: auto; object-fit: contain; margin-right: 12px;" />
+            </a>
+            <div class="divider"></div>
+            <span class="page-title">Admin Console Control</span>
+        </div>
 
-            <div class="nav-right" id="topActions">
-                <!-- User profile injected by script.js -->
+        <div class="nav-right" id="topActions">
+            <div class="user-greeting">
+                <span class="greeting-text" id="greetingName">Loading...</span>
+                <div class="user-avatar" id="greetingInitial">?</div>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="dashboard-container">
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="page-body">
+        <div class="container dashboard-card">
 
-        <!-- MARKETPLACE PERFORMANCE -->
-        <section class="dashboard-section">
-            <div class="section-header">
-                <h2>MARKETPLACE PERFORMANCE</h2>
-                <div class="line"></div>
-            </div>
+            <!-- SECTION: ORGANIZER APPROVAL QUEUE -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2>ORGANIZER APPROVAL QUEUE</h2>
+                    <div class="line"></div>
+                </div>
 
-            <div class="stats-grid">
-                <!-- Card 1 -->
-                <div class="stat-card" style="border-left-color: #1a237e;">
-                    <div class="stat-title">TOTAL ACTIVE EVENTS</div>
-                    <div class="stat-value">24</div>
-                    <div class="stat-trend positive">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12l7-7 7 7M12 19V5" />
-                        </svg>
-                        12% from last month
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>APPLICANT</th>
+                                <th>ORGANIZATION DETAILS</th>
+                                <th>VERIFICATION NOTE</th>
+                                <th style="text-align: right;">REVIEW ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applyTableBody">
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span class="pag-info" id="applyPagInfo">Showing 0-0 of 0 Applications</span>
+                        <div class="pag-controls">
+                            <button class="btn-pag" id="applyPrevBtn">Prev</button>
+                            <button class="btn-pag" id="applyNextBtn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- SECTION: EVENT MANAGEMENT -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2>EVENT MANAGEMENT</h2>
+                    <div class="line"></div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>PUBLISHED EVENT</th>
+                                <th>TICKETS AVAILABLE</th>
+                                <th style="text-align: right;">MANAGEMENT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventTableBody">
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span class="pag-info" id="eventPagInfo">Showing 0-0 of 0 Events</span>
+                        <div class="pag-controls">
+                            <button class="btn-pag" id="eventPrevBtn">Prev</button>
+                            <button class="btn-pag" id="eventNextBtn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- SECTION: ACCOUNT MANAGEMENT -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2>ACCOUNT MANAGEMENT</h2>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Tabs & Controls -->
+                <div class="ecosystem-controls">
+                    <div class="tab pointer active">Event Organizers</div>
+                </div>
+
+                <div class="table-container mb-40">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ORGANIZER / COMPANY</th>
+                                <th>JOINED DATE</th>
+                                <th>TOTAL EVENTS</th>
+                                <th style="text-align: right;">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eoTableBody">
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span class="pag-info" id="eoPagInfo">Showing 0-0 of 0 Organizers</span>
+                        <div class="pag-controls">
+                            <button class="btn-pag" id="eoPrevBtn">Prev</button>
+                            <button class="btn-pag" id="eoNextBtn">Next</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="stat-card" style="border-left-color: #f57c00;">
-                    <div class="stat-title">REGISTERED USERS</div>
-                    <div class="stat-value">1,248</div>
-                    <div class="stat-trend positive">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12l7-7 7 7M12 19V5" />
-                        </svg>
-                        5.4% new signups
+
+                <!-- Users Section -->
+                <div class="ecosystem-controls">
+                    <div class="tab pointer active">Users</div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>FULL NAME / USERNAME</th>
+                                <th>EMAIL ADDRESS</th>
+                                <th>TICKET PURCHASE</th>
+                                <th>STATUS</th>
+                                <th style="text-align: right;">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span class="pag-info" id="userPagInfo">Showing 0-0 of 0 Users</span>
+                        <div class="pag-controls">
+                            <button class="btn-pag" id="userPrevBtn">Prev</button>
+                            <button class="btn-pag" id="userNextBtn">Next</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="stat-card" style="border-left-color: #ffb300;">
-                    <div class="stat-title">GROSS TICKET SALES</div>
-                    <div class="stat-value">3,502</div>
-                    <div class="stat-trend info">
-                        System Volume: High
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- ORGANIZER APPROVAL QUEUE -->
-        <section class="dashboard-section">
-            <div class="section-header">
-                <h2>ORGANIZER APPROVAL QUEUE</h2>
-                <div class="line"></div>
-            </div>
-
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>APPLICANT</th>
-                            <th>ORGANIZATION DETAILS</th>
-                            <th>VERIFICATION NOTE</th>
-                            <th>REVIEW ACTIONS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="applicant-info">
-                                    <div class="applicant-name">Darren Keith Ko</div>
-                                    <div class="applicant-email">darren@yogaclass.com</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge badge-blue">Yoga Festival</span>
-                            </td>
-                            <td>
-                                <span class="note-text">Requesting access for Yoga Bali Enthusiast series 2026.</span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary">Approve EO</button>
-                                    <button class="btn btn-outline">Reject</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="applicant-info">
-                                    <div class="applicant-name">Elizabeth Florence</div>
-                                    <div class="applicant-email">lisa@techexpo.io</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge badge-blue">Global Tech Expo</span>
-                            </td>
-                            <td>
-                                <span class="note-text">Specializing in B2B tech conferences and workshops.</span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary">Approve EO</button>
-                                    <button class="btn btn-outline">Reject</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- LIVE CONTENT MANAGEMENT -->
-        <section class="dashboard-section">
-            <div class="section-header">
-                <h2>LIVE CONTENT MANAGEMENT</h2>
-                <div class="line"></div>
-            </div>
-
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>PUBLISHED EVENT</th>
-                            <th>CURRENT STATUS</th>
-                            <th>AUDIENCE</th>
-                            <th>MANAGEMENT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="event-info">
-                                    <div class="event-name">UPH Music Festival 2026</div>
-                                    <div class="event-id">ID: #EVT-99203</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge badge-green">LIVE & SELLING</span>
-                            </td>
-                            <td>
-                                <span class="audience-text">8,240 Sold</span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-ghost">Inspect</button>
-                                    <button class="btn btn-outline-danger">Suspend Event</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="event-info">
-                                    <div class="event-name">Web3 Innovation Summit</div>
-                                    <div class="event-id">ID: #EVT-44120</div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge badge-yellow">PENDING REVIEW</span>
-                            </td>
-                            <td>
-                                <span class="audience-text">-</span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-ghost">Inspect</button>
-                                    <button class="btn btn-outline-danger">Take Down</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
+        </div>
     </main>
 
-    <script type="module" src="/adminpage/script.js"></script>
-</body>
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-card">
+            <div class="modal-header">Confirm Deletion</div>
+            <div class="modal-body">
+                Are you sure you want to permanently delete this account? All associated orders and events will be deleted as well!
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-primary" style="background:var(--brand-navy);" id="confirmDeleteBtn">Yes, Delete Account</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- DEACTIVATE EVENT MODAL -->
+    <div class="modal-overlay" id="deactivateModal">
+        <div class="modal-card">
+            <div class="modal-header">Take Down Event</div>
+            <div class="modal-body">
+                Are you sure you want to take down (deactivate) this event? It will no longer be visible to the public.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeDeactivateModal()">Cancel</button>
+                <button class="btn btn-primary" style="background:var(--brand-navy);" id="confirmDeactivateBtn">Yes, Take Down</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPROVE CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="approveModal">
+        <div class="modal-card">
+            <div class="modal-header" style="color: #10b981;">Approve Organizer</div>
+            <div class="modal-body">
+                Are you sure you want to approve this application? The user will immediately be granted Event Organizer privileges.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeApproveModal()">Cancel</button>
+                <button class="btn btn-primary" style="background:#10b981; border:none;" id="confirmApproveBtn">Yes, Approve</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REJECT CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="rejectModal">
+        <div class="modal-card">
+            <div class="modal-header">Reject Application</div>
+            <div class="modal-body">
+                Are you sure you want to reject this event organizer application?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeRejectModal()">Cancel</button>
+                <button class="btn btn-primary" style="background:var(--brand-navy);" id="confirmRejectBtn">Yes, Reject</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION MODAL (SUCCESS/ERROR) -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal-card">
+            <div class="modal-header" id="notifModalTitle" style="color: var(--brand-navy);">Notification</div>
+            <div class="modal-body" id="notifModalMessage">
+                Action completed.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" style="background:var(--brand-navy);" onclick="closeNotificationModal()">Okay</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/adminpage/script.js" type="module"></script>
+</body>
 </html>

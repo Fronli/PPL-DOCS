@@ -215,7 +215,7 @@ function checkAuth() {
 			organizerNavBtn.textContent = "Admin Dashboard";
 			organizerNavBtn.href = "/admin/dashboard";
 		} else {
-			organizerNavBtn.href = "#";
+			organizerNavBtn.href = "/applyEopage";
 		}
 	}
 

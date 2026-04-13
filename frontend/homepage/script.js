@@ -222,8 +222,8 @@ function checkAuth() {
 				bottomOrganizerBtn.onclick = (e) => window.goToDashboard(e, '/admin/dashboard');
 			}
 		} else {
-			organizerNavBtn.href = "#";
-			if(bottomOrganizerBtn) bottomOrganizerBtn.href = "#";
+			organizerNavBtn.href = "/applyEopage";
+			if(bottomOrganizerBtn) bottomOrganizerBtn.href = "/applyEopage";
 		}
 	}
 

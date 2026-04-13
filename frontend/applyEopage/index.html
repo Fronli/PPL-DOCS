@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ticketa - Apply as Event Organizer</title>
+	<meta name="description"
+		content="Apply to become an Event Organizer and manage your ticket sales, attendee data, and event promotion." />
+	<link rel="stylesheet" href="/applyEopage/style.css" />
+</head>
+
+<body>
+	<!-- ─── TOPBAR ─── -->
+	<header class="topbar" id="topbar">
+		<!-- Left: Logo -->
+		<div class="nav-left">
+			<a class="brand" href="/" aria-label="Beranda Ticketa">
+				<img src="/images/icon/icon.png" alt="Ticketa" class="brand-logo" />
+			</a>
+		</div>
+
+		<!-- Center: Navigation Menu -->
+		<nav class="nav-center" aria-label="Navigasi utama">
+			<a href="/">Home</a>
+			<a href="/#eventCategories">Explore Events</a>
+			<a class="active" href="/applyEopage">Become an Organizer</a>
+		</nav>
+
+		<!-- Right: Actions -->
+		<div class="nav-right" id="topActions">
+			<a class="login-link" id="loginBtn" href="/auth/login">Log In</a>
+			<a class="signup-btn" id="signupBtn" href="/auth/signup">Sign Up</a>
+		</div>
+	</header>
+
+	<main class="content-area">
+        <section class="apply-header">
+            <h1 class="page-title">Apply as Event Organizer</h1>
+            <p class="page-subtitle">Partner with EventHub to manage your ticket sales, attendee data, and event promotion<br>in one powerful dashboard.</p>
+        </section>
+
+        <section class="form-container">
+            <div class="alert-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <p>Our team will review your application within <strong>1-2 business days</strong>. Once approved, you can start creating events immediately.</p>
+            </div>
+
+            <form id="eoApplyForm" class="apply-form">
+                <div class="form-section-title">ORGANIZATION DETAILS</div>
+
+                <div class="input-group">
+                    <label for="organizationName">Organization Name</label>
+                    <input type="text" id="organizationName" name="organizationName" placeholder="e.g. Rock Productions Ltd." required />
+                </div>
+
+                <div class="input-group">
+                    <label for="description">Organization Bio & Event Types</label>
+                    <textarea id="description" name="description" rows="5" placeholder="Tell us about your organization and the scale/category of events you typically host (e.g. Music Festivals, Tech Conferences)..." required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="contactInfo">Official Business Email or Phone</label>
+                    <input type="text" id="contactInfo" name="contactInfo" placeholder="e.g. partnership@skyline.com" required />
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
+                <div class="disclaimer">By submitting, you agree to our Organizer Terms of Service.</div>
+            </form>
+        </section>
+	</main>
+
+	<!-- ─── FOOTER ─── -->
+	<footer class="footer">
+		<div class="footer-container">
+			<div class="footer-col brand-col">
+				<span class="footer-brand">Ticketa</span>
+				<p>Contact Us:</p>
+				<p>Email: ticketa@gmail.com</p>
+				<p>Phone: +62 8124 0031</p>
+				<p>Address: Menara Matahari, Lt. 15, Jl. City</p>
+			</div>
+			<div class="footer-col">
+				<h4>Platform</h4>
+				<a href="/applyEopage">Become an Organizer</a>
+				<a href="/#eventCategories">Browse Categories</a>
+				<a href="/#hero">Host an Event</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>&copy; 2026 Ticketa Platform. All rights reserved.</p>
+		</div>
+	</footer>
+
+    <!-- SUBMIT APPLICATION MODAL -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal-card">
+            <div class="modal-header" id="modalTitle" style="color: var(--brand);">Application Submitted</div>
+            <div class="modal-body" id="modalMessage">
+                Success! Your application has been submitted and is currently pending review.
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" style="background:var(--brand); border:none; padding:10px 20px; border-radius:8px; color:white; font-weight:700; cursor:pointer;" onclick="closeModalAndRedirect()">Okay</button>
+            </div>
+        </div>
+    </div>
+
+	<script src="/applyEopage/script.js" type="module"></script>
+</body>
+
+</html>

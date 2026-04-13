@@ -24,6 +24,56 @@ export const getEOEvent = async (req: Request, res: Response) => {
     }
 }
 
+export const submitEOApplication = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user.id;
+        const { organizationName, description, contactInfo } = req.body;
+
+        if (!organizationName || !contactInfo) {
+            return res.status(400).json({ message: 'Organization name and contact info are required.' });
+        }
+
+        // Check if user already has an active or pending application
+        const existingApp = await prisma.eOApplication.findUnique({
+            where: { userId }
+        });
+
+        if (existingApp) {
+            if (existingApp.status === 'PENDING') {
+                return res.status(400).json({ message: 'You already have a pending application.' });
+            } else if (existingApp.status === 'APPROVED') {
+                return res.status(400).json({ message: 'You are already an approved Event Organizer.' });
+            }
+            // If REJECTED, we allow them to re-apply by updating the existing record
+            const updatedApp = await prisma.eOApplication.update({
+                where: { userId },
+                data: {
+                    organizationName,
+                    description: description || null,
+                    contactInfo,
+                    status: 'PENDING'
+                }
+            });
+            return res.status(200).json({ message: 'Application re-submitted successfully', application: updatedApp });
+        }
+
+        // Create new application
+        const application = await prisma.eOApplication.create({
+            data: {
+                userId,
+                organizationName,
+                description: description || null,
+                contactInfo
+            }
+        });
+
+        res.status(201).json({ message: 'Application submitted successfully', application });
+    } catch (error) {
+        console.error('Error submitting EO application:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 
 export const createEvent = async (req: Request, res: Response) => {
     try {

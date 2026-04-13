@@ -23,6 +23,10 @@ app.get('/', (req: Request, res: Response) => {
 
 
 // User Pages Routes
+app.get('/applyEopage', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'applyEopage', 'index.html'));
+});
+
 app.get('/search', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'searchpage', 'index.html'));
 });
@@ -56,6 +60,11 @@ app.get('/eo/dashboard', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'dashboard', 'index.html'));
 });
 
+// Manage Event List
+app.get('/eo/manageEventList', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'manageEventList', 'index.html'));
+});
+
 // Manage Event
 app.get('/eo/manageEvent', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'manageEvent', 'index.html'));
@@ -66,9 +75,17 @@ app.get('/eo/createEvent', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'createEvent', 'index.html'));
 });
 
+// Ticket Scanner
+app.get('/eo/scanner', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'eopage', 'scanner', 'index.html'));
+});
+
 
 
 // Admin Pages Routes
+app.get('/admin/dashboard', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'adminpage', 'index.html'));
+});
 
 
 

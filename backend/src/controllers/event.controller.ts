@@ -1,11 +1,7 @@
+import { randomUUID } from 'crypto';
 import type { Request, Response } from 'express';
-import path from 'path';
 import QRCode from 'qrcode';
-import { fileURLToPath } from 'url';
 import prisma from '../db/primsa.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.join(path.dirname(__filename), '../../../');
 
 // Create order to table "Order" with  "userId", "total"
 export const createOrder = async (req: Request, res: Response) => {
@@ -53,73 +49,74 @@ export const completePayment = async (req: Request, res: Response) => {
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
     try {
-        const order = await prisma.order.findUnique({ 
-            where: { id: Number(orderId) },
-        });
+        const result = await prisma.$transaction(async (tx) => {
+            const order = await tx.order.findUnique({
+                where: { id: Number(orderId) },
+            });
 
-        if (!order) return res.status(404).json({ message: "Order not found" });
-        if (order.userId !== userId) return res.status(403).json({ message: "Forbidden" });
+            if (!order) throw new Error("Order not found");
+            if (order.userId !== userId) throw new Error("Forbidden");
 
-
-        if (order.status === 'PAID') {
-            return res.status(400).json({ message: "This order is already paid." });
-        }
-
-        // Validate payload against order total
-        const ticketType = await prisma.ticketType.findUnique({ where: { id: Number(ticketTypeId) } });
-        if (!ticketType) return res.status(404).json({ message: "Ticket type not found" });
-        
-        if (ticketType.price * Number(quantity) !== order.total) {
-             return res.status(400).json({ message: "Invalid payment payload" });
-        }
-
-        if (ticketType.quota < Number(quantity)) {
-             return res.status(400).json({ message: "Sorry, tickets sold out while you were paying." });
-        }
-
-        const updatedOrder = await prisma.order.update({
-            where: { id: order.id },
-            data: { status: 'PAID' }
-        });
-
-        // Also mock a payment record
-        await prisma.payment.create({
-            data: {
-                orderId: order.id,
-                method: "SIMULATION",
-                status: "PAID"
+            if (order.status === 'PAID') {
+                throw new Error("This order is already paid.");
             }
+
+            // Validate payload against order total
+            const ticketType = await tx.ticketType.findUnique({ where: { id: Number(ticketTypeId) } });
+            if (!ticketType) throw new Error("Ticket type not found");
+
+            if (ticketType.price * Number(quantity) !== order.total) {
+                throw new Error("Invalid payment payload");
+            }
+
+            if (ticketType.quota < Number(quantity)) {
+                throw new Error("Sorry, tickets sold out while you were paying.");
+            }
+
+            const updatedOrder = await tx.order.update({
+                where: { id: order.id },
+                data: { status: 'PAID' }
+            });
+
+            // Also mock a payment record
+            await tx.payment.create({
+                data: {
+                    orderId: order.id,
+                    method: "SIMULATION",
+                    status: "PAID"
+                }
+            });
+
+            // Decrement quota permanently
+            await tx.ticketType.update({
+                where: { id: ticketType.id },
+                data: { quota: ticketType.quota - Number(quantity) }
+            });
+
+            // Generate tickets linked to this order
+            const ticketsData = Array.from({ length: Number(quantity) }).map(() => ({
+                code: randomUUID(),
+                eventId: Number(eventId),
+                ticketTypeId: ticketType.id,
+                orderId: order.id,
+                status: 'VALID' as any
+            }));
+
+            await tx.ticket.createMany({
+                data: ticketsData
+            });
+
+            return { updatedOrder, ticketsCount: ticketsData.length };
         });
 
-        // Decrement quota permanently
-        await prisma.ticketType.update({
-            where: { id: ticketType.id },
-            data: { quota: ticketType.quota - Number(quantity) }
+        res.json({
+            message: "Payment completed successfully",
+            order: result.updatedOrder,
+            ticketsCount: result.ticketsCount
         });
-
-        // Generate tickets linked to this order
-        const createdTickets = [];
-        for (let i = 0; i < Number(quantity); i++) {
-             // We can just use timestamp and random for unique string, then generate the base64 qr
-             const qrString = `QR-${order.id}-${ticketType.id}-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 5)}`;
-             const qrBase64 = await QRCode.toDataURL(qrString);
-
-             const ticket = await prisma.ticket.create({
-                 data: {
-                     qrCode: qrBase64,
-                     eventId: Number(eventId),
-                     ticketTypeId: ticketType.id,
-                     orderId: order.id,
-                     status: 'VALID'
-                 }
-             });
-             createdTickets.push(ticket);
-        }
-
-        res.json({ message: "Payment completed successfully", order: { ...updatedOrder, tickets: createdTickets } });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error completing payment:", error);
-        res.status(500).json({ message: "Failed to process payment" });
+        res.status(error.message === "Order not found" ? 404 : 400).json({ message: error.message || "Failed to process payment" });
     }
 };
 
@@ -127,8 +124,6 @@ export const completePayment = async (req: Request, res: Response) => {
 export const getOrderTickets = async (req: Request, res: Response) => {
     const userId = req.user?.id;
     const { orderId } = req.params;
-
-    console.log("masuk get order tickets");
 
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
@@ -148,7 +143,15 @@ export const getOrderTickets = async (req: Request, res: Response) => {
         if (!order) return res.status(404).json({ message: "Order not found" });
         if (order.userId !== userId) return res.status(403).json({ message: "Forbidden" });
 
-        res.json({ order });
+        const ProcessOrder = JSON.parse(JSON.stringify(order));
+        
+        // Dynamically compute Base64 QR Image for each ticket natively
+        for (let t of ProcessOrder.tickets) {
+            t.qrCode = await QRCode.toDataURL(t.code);
+            t.qrImage = t.qrCode; // Aliasing specifically for potential refactor requests
+        }
+
+        res.json({ order: ProcessOrder });
     } catch (error) {
         console.error("Error fetching order tickets:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -164,7 +167,7 @@ export const getMyTicket = async (req: Request, res: Response) => {
 
     try {
         const orders = await prisma.order.findMany({
-            where: { 
+            where: {
                 userId,
                 status: 'PAID'
             },
@@ -180,8 +183,16 @@ export const getMyTicket = async (req: Request, res: Response) => {
                 createdAt: 'desc'
             }
         });
+        const ProcessOrders = JSON.parse(JSON.stringify(orders));
 
-        res.json({ orders });
+        for (let order of ProcessOrders) {
+             for (let t of order.tickets) {
+                  t.qrCode = await QRCode.toDataURL(t.code);
+                  t.qrImage = t.qrCode;
+             }
+        }
+
+        res.json({ orders: ProcessOrders });
     } catch (error) {
         console.error("Error fetching user tickets:", error);
         res.status(500).json({ message: "Internal server error" });

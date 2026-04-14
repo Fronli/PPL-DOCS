@@ -1,5 +1,5 @@
-import {Router} from 'express';
-import {getEvents, getEventById, createOrder, completePayment, getOrderTickets, getMyTicket} from '../controllers/event.controller.js';
+import { Router } from 'express';
+import { getEvents, getEventById, createOrder, completePayment, getOrderTickets, getMyTicket } from '../controllers/event.controller.js';
 import { verifyToken } from '../middleware/auth.middleware.js';
 
 const router = Router();

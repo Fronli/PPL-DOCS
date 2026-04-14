@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						<div class="card-actions">
 							${isFuture 
 								? `<a href="/view-ticket/${order.id}" class="btn-primary">View Ticket</a>
-								   <a href="${sampleTicket.qrCode}" download="Ticketa-QR-${sampleTicket.id}.png" class="btn-secondary" style="text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">Download QR</a>`
+								   <a href="/view-ticket/${order.id}" class="btn-secondary" style="text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">Download QR</a>`
 								: `<a href="/view-ticket/${order.id}" class="btn-secondary">View Receipt</a>`
 							}
 						</div>

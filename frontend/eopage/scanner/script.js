@@ -213,7 +213,7 @@ function renderTicketDetails(ticket) {
 	document.getElementById('detailContent').style.display = 'flex';
 
 	document.getElementById('attendeeName').textContent = ticket.attendeeName || '—';
-	document.getElementById('ticketId').textContent = ticket.qrCode || '—';
+	document.getElementById('ticketId').textContent = ticket.code || '—';
 	document.getElementById('ticketType').textContent = ticket.typeName || '—';
 	document.getElementById('ticketSeat').textContent = '—';
 

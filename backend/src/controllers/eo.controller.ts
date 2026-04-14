@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';   
+import type { Request, Response } from 'express';
 import prisma from '../db/primsa.js';
 
 export const getEOEvent = async (req: Request, res: Response) => {
@@ -29,8 +29,9 @@ export const getTicketByQR = async (req: Request, res: Response) => {
         const { qrcode } = req.params;
         const organizerId = (req as any).user.id;
 
+        // Lookup ticket by its unique code (stored in DB as `code`)
         const ticket = await prisma.ticket.findUnique({
-            where: { qrCode: qrcode },
+            where: { code: qrcode },
             include: {
                 event: true,
                 ticketType: true,
@@ -49,13 +50,13 @@ export const getTicketByQR = async (req: Request, res: Response) => {
         }
 
         res.json({
-            qrCode: ticket.qrCode,
+            code: ticket.code,
             status: ticket.status,
             attendeeName: ticket.order.user.name || ticket.order.user.email,
             typeName: ticket.ticketType.name
         });
     } catch (error) {
-        console.error('Error fetching ticket by QR:', error);
+        console.error('Error fetching ticket by code:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
@@ -65,8 +66,9 @@ export const checkinTicket = async (req: Request, res: Response) => {
         const { qrcode } = req.params;
         const organizerId = (req as any).user.id;
 
+        // Lookup ticket by its unique code
         const ticket = await prisma.ticket.findUnique({
-            where: { qrCode: qrcode },
+            where: { code: qrcode },
             include: { event: true }
         });
 
@@ -173,7 +175,7 @@ export const createEvent = async (req: Request, res: Response) => {
 
         const parsedDate = new Date(eventDate);
         const parsedSeats = parseInt(totalSeats) || 0;
-        
+
         let ticketTypes = [];
         try {
             if (req.body.tickets) {
@@ -226,10 +228,10 @@ export const getManageEventData = async (req: Request, res: Response) => {
     try {
         let { id } = req.params;
         const organizerId = (req as any).user.id;
-        
+
         let numericId = Number(id);
         if (isNaN(numericId) && typeof id === 'string' && id.startsWith(':')) {
-             numericId = Number(id.slice(1));
+            numericId = Number(id.slice(1));
         }
 
         if (!numericId || isNaN(numericId)) {
@@ -344,7 +346,7 @@ export const updateEventDetails = async (req: Request, res: Response) => {
         let { id } = req.params;
         const organizerId = (req as any).user.id;
         const { description } = req.body;
-        
+
         const numericId = isNaN(Number(id)) && id.startsWith(':') ? Number(id.slice(1)) : Number(id);
 
         if (!numericId || typeof description !== 'string') {
@@ -372,7 +374,7 @@ export const updateEventQuota = async (req: Request, res: Response) => {
         let { id } = req.params;
         const organizerId = (req as any).user.id;
         const { quotas } = req.body; // Array of { id: ticketTypeId, left: newLeftQuota }
-        
+
         const numericId = isNaN(Number(id)) && id.startsWith(':') ? Number(id.slice(1)) : Number(id);
 
         if (!numericId || !Array.isArray(quotas)) {
@@ -394,10 +396,10 @@ export const updateEventQuota = async (req: Request, res: Response) => {
         // Process each ticket type
         for (const q of quotas) {
             const ticketType = event.ticketTypes.find(tt => tt.id === q.id);
-            if(ticketType) {
+            if (ticketType) {
                 const soldCount = event.tickets.filter(t => t.ticketTypeId === ticketType.id && t.status !== 'CANCELLED' && t.order?.status === 'PAID').length;
                 const newQuota = soldCount + Math.max(0, Number(q.left));
-                
+
                 addedSeats += (newQuota - ticketType.quota);
 
                 await prisma.ticketType.update({
@@ -406,13 +408,13 @@ export const updateEventQuota = async (req: Request, res: Response) => {
                 });
             }
         }
-        
+
         // Optionally update the totalSeats of the event
         if (addedSeats !== 0) {
-             await prisma.event.update({
-                 where: { id: event.id },
-                 data: { totalSeats: event.totalSeats + addedSeats }
-             });
+            await prisma.event.update({
+                where: { id: event.id },
+                data: { totalSeats: event.totalSeats + addedSeats }
+            });
         }
 
         res.json({ message: 'Quotas updated successfully' });

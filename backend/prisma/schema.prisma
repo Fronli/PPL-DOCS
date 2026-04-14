@@ -167,7 +167,7 @@ model Payment {
 model Ticket {
   id          Int          @id @default(autoincrement())
 
-  qrCode      String       @unique
+  code        String       @unique
 
   status      TicketStatus @default(VALID)
 

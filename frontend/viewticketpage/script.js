@@ -54,18 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			// Render each ticket (if checkout has qty 2, it loops 2 times)
-			order.tickets.forEach(ticket => {
+			order.tickets.forEach((ticket, index) => {
 				const event = ticket.event;
 				const ticketType = ticket.ticketType;
+
+				// Create a unique canvas ID for each ticket QR
+				const qrCanvasId = `qr-canvas-${ticket.id}`;
 
 				const ticketHTML = `
 				<div class="ticket-card">
 					<div class="ticket-left">
 						<div class="qr-box">
-							${ticket.qrCode && ticket.qrCode.startsWith('data:image') 
-                                ? `<img src="${ticket.qrCode}" alt="Ticket QR Code" />`
-                                : `<span style="font-size:0.7rem; color:#94a3b8; text-align:center;">${ticket.qrCode || 'Waiting QR Generation'}</span>`
-                            }
+							<img src="${ticket.qrImage || ticket.qrCode}" alt="Ticket QR" style="width: 180px; height: 180px; object-fit: contain;">
 						</div>
 						<span class="pass-type">Entrance Pass</span>
 						<span class="pass-id">ID: TKT-${new Date().getFullYear()}-${ticket.id.toString().padStart(5, '0')}</span>
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					
 					<div class="ticket-right">
 						<div class="valid-badge">
-							<span class="dot"></span> Valid Ticket
+							<span class="dot"></span> ${ticket.status === 'VALID' ? 'Valid Ticket' : ticket.status}
 						</div>
 						
 						<h2 class="event-name">${event.title}</h2>
@@ -94,10 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
 							</div>
 						</div>
 						
-						<a class="btn-download" href="${ticket.qrCode}" download="Ticketa-QR-${ticket.id}.png" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+						<button class="btn-download" data-qr="${ticket.qrImage || ticket.qrCode}" data-ticket-id="${ticket.id}" onclick="downloadQR(this)" style="cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none;">
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
 							Download QR
-						</a>
+						</button>
 					</div>
 				</div>`;
 
@@ -113,6 +113,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	loadTicketData();
 	checkAuth();
 });
+
+/* ─── Download QR as PNG ─── */
+window.downloadQR = function(btn) {
+	const qrBase64 = btn.dataset.qr;
+	const ticketId = btn.dataset.ticketId;
+	if (!qrBase64) return;
+
+	const a = document.createElement('a');
+	a.href = qrBase64;
+	a.download = `Ticketa-QR-${ticketId}.png`;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+};
 
 /* ─── Check Auth State ─── */
 function checkAuth() {

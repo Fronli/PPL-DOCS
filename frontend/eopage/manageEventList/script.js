@@ -144,8 +144,11 @@ function populateUI(data) {
 						<span>${formatDate(ev.eventDate)}</span>
 					</div>
 				</div>
-                <!-- Redirects to detail manage page -->
-				<a href="/eo/manageEvent?id=${ev.id}" class="btn-primary">Manage</a>
+                <!-- Redirects to detail manage page or scanner -->
+				<div style="display: flex; gap: 10px; margin-top: 10px;">
+					<a href="/eo/manageEvent?id=${ev.id}" class="btn-primary" style="flex: 1; text-align: center;">Manage Event</a>
+					<a href="/eo/scanner?eventId=${ev.id}" class="btn-primary" style="flex: 1; text-align: center; background-color: var(--success-green, #10B981);">Check-In Ticket</a>
+				</div>
 			</div>
 		`;
 		

@@ -97,7 +97,6 @@ model Event {
   posterUrl   String?
   isPublished Boolean @default(false)
 
-
   totalSeats  Int
 
   organizerId Int

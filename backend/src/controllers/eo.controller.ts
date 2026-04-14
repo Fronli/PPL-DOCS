@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request, Response } from 'express';   
 import prisma from '../db/primsa.js';
 
 export const getEOEvent = async (req: Request, res: Response) => {
@@ -20,6 +20,76 @@ export const getEOEvent = async (req: Request, res: Response) => {
         res.json(events);
     } catch (error) {
         console.error('Error fetching EO events:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export const getTicketByQR = async (req: Request, res: Response) => {
+    try {
+        const { qrcode } = req.params;
+        const organizerId = (req as any).user.id;
+
+        const ticket = await prisma.ticket.findUnique({
+            where: { qrCode: qrcode },
+            include: {
+                event: true,
+                ticketType: true,
+                order: {
+                    include: { user: true }
+                }
+            }
+        });
+
+        if (!ticket) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        if (ticket.event.organizerId !== organizerId) {
+            return res.status(403).json({ message: 'Unauthorized. This ticket belongs to a different organizer.' });
+        }
+
+        res.json({
+            qrCode: ticket.qrCode,
+            status: ticket.status,
+            attendeeName: ticket.order.user.name || ticket.order.user.email,
+            typeName: ticket.ticketType.name
+        });
+    } catch (error) {
+        console.error('Error fetching ticket by QR:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export const checkinTicket = async (req: Request, res: Response) => {
+    try {
+        const { qrcode } = req.params;
+        const organizerId = (req as any).user.id;
+
+        const ticket = await prisma.ticket.findUnique({
+            where: { qrCode: qrcode },
+            include: { event: true }
+        });
+
+        if (!ticket) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        if (ticket.event.organizerId !== organizerId) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+
+        if (ticket.status !== 'VALID') {
+            return res.status(400).json({ message: `Cannot check in ticket. Current status is ${ticket.status}` });
+        }
+
+        const updatedTicket = await prisma.ticket.update({
+            where: { id: ticket.id },
+            data: { status: 'USED' }
+        });
+
+        res.json({ message: 'Ticket checked in successfully', ticket: updatedTicket });
+    } catch (error) {
+        console.error('Error checking in ticket:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }

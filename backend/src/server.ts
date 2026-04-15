@@ -14,7 +14,12 @@ const DB_URL = process.env.DATABASE_URL;
 app.use(cors({ origin: ['http://localhost:3000', 'http://127.0.0.1:3000'] }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
-app.use(express.static(path.join(__dirname, 'backend', 'src', 'public')));
+
+const publicPath = process.env.NODE_ENV === 'production' 
+  ? path.join(__dirname, 'backend', 'public') 
+  : path.join(__dirname, 'backend', 'src', 'public');
+app.use(express.static(publicPath));
+
 
 app.get('/', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'frontend', 'homepage', 'index.html'));

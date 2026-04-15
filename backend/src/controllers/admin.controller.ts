@@ -42,7 +42,7 @@ export const getAdminDashboard_Apply = async (req: Request, res: Response) => {
 
 export const approveApply = async (req: Request, res: Response) => {
     try {
-        const applyId = parseInt(req.params.id);
+        const applyId = parseInt(req.params.id as string);
         const application = await prisma.eOApplication.findUnique({where: {id: applyId}});
         if(!application) return res.status(404).json({message: "Not found"});
         
@@ -65,7 +65,7 @@ export const approveApply = async (req: Request, res: Response) => {
 
 export const rejectApply = async (req: Request, res: Response) => {
     try {
-        const applyId = parseInt(req.params.id);
+        const applyId = parseInt(req.params.id as string);
         
         await prisma.eOApplication.update({
             where: { id: applyId },
@@ -160,7 +160,7 @@ export const getAdminDashboard_Events = async (req: Request, res: Response) => {
 
 export const deleteAccount = async (req: Request, res: Response) => {
     try {
-        const accountId = parseInt(req.params.id);
+        const accountId = parseInt(req.params.id as string);
         
         // Prevent deleting oneself
         if ((req as any).user.id === accountId) {
@@ -180,7 +180,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
 
 export const deactivateEvent = async (req: Request, res: Response) => {
     try {
-        const eventId = parseInt(req.params.id);
+        const eventId = parseInt(req.params.id as string);
         
         await prisma.event.update({
             where: { id: eventId },

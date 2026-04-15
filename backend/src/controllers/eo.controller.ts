@@ -26,7 +26,7 @@ export const getEOEvent = async (req: Request, res: Response) => {
 
 export const getTicketByQR = async (req: Request, res: Response) => {
     try {
-        const { qrcode } = req.params;
+        const qrcode = req.params.qrcode as string;
         const organizerId = (req as any).user.id;
 
         // Lookup ticket by its unique code (stored in DB as `code`)
@@ -63,7 +63,7 @@ export const getTicketByQR = async (req: Request, res: Response) => {
 
 export const checkinTicket = async (req: Request, res: Response) => {
     try {
-        const { qrcode } = req.params;
+        const qrcode = req.params.qrcode as string;
         const organizerId = (req as any).user.id;
 
         // Lookup ticket by its unique code
@@ -176,21 +176,14 @@ export const createEvent = async (req: Request, res: Response) => {
         const parsedDate = new Date(eventDate);
         const parsedSeats = parseInt(totalSeats) || 0;
 
-        let ticketTypes = [];
-        try {
-            if (req.body.tickets) {
-                ticketTypes = JSON.parse(req.body.tickets);
-            }
-        } catch (e) {
-            console.error("Failed to parse tickets JSON payload:", e);
-        }
-
-        let parsedTicketTypes = [];
-        if (ticketTypes) {
+        let ticketTypes: any[] = [];
+        if (req.body.tickets) {
             try {
-                parsedTicketTypes = JSON.parse(ticketTypes);
+                ticketTypes = typeof req.body.tickets === "string"
+                    ? JSON.parse(req.body.tickets)
+                    : req.body.tickets;
             } catch (e) {
-                console.error("Gagal parse ticketTypes JSON", e);
+                return res.status(400).json({ message: "Format ticket tidak valid" });
             }
         }
 
@@ -343,7 +336,8 @@ export const getManageEventData = async (req: Request, res: Response) => {
 
 export const updateEventDetails = async (req: Request, res: Response) => {
     try {
-        let { id } = req.params;
+        const rawId = req.params.id;
+        const id = Array.isArray(rawId) ? rawId[0] : rawId;
         const organizerId = (req as any).user.id;
         const { description } = req.body;
 
@@ -371,7 +365,8 @@ export const updateEventDetails = async (req: Request, res: Response) => {
 
 export const updateEventQuota = async (req: Request, res: Response) => {
     try {
-        let { id } = req.params;
+        const rawId = req.params.id;
+        const id = Array.isArray(rawId) ? rawId[0] : rawId;
         const organizerId = (req as any).user.id;
         const { quotas } = req.body; // Array of { id: ticketTypeId, left: newLeftQuota }
 
@@ -384,7 +379,14 @@ export const updateEventQuota = async (req: Request, res: Response) => {
         // Verify event ownership
         const event = await prisma.event.findFirst({
             where: { id: numericId, organizerId: organizerId },
-            include: { tickets: true, ticketTypes: true } // Needed to compute sold
+            include: {
+                tickets: {
+                    include: {
+                        order: true
+                    }
+                },
+                ticketTypes: true
+            }
         });
 
         if (!event) {

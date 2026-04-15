@@ -6,9 +6,7 @@ import prisma from '../db/primsa.js';
 // Create order to table "Order" with  "userId", "total"
 export const createOrder = async (req: Request, res: Response) => {
     const { eventId, ticketTypeId, quantity } = req.body;
-    const userId = req.user?.id;
-
-    console.log("masuk create order");
+    const userId = (req as any).user.id;
 
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
@@ -42,9 +40,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
 export const completePayment = async (req: Request, res: Response) => {
     const { orderId, eventId, ticketTypeId, quantity } = req.body;
-    const userId = req.user?.id;
-
-    console.log("masuk complete payment");
+    const userId = (req as any).user.id;
 
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
@@ -122,7 +118,7 @@ export const completePayment = async (req: Request, res: Response) => {
 
 
 export const getOrderTickets = async (req: Request, res: Response) => {
-    const userId = req.user?.id;
+    const userId = (req as any).user.id;
     const { orderId } = req.params;
 
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
@@ -160,7 +156,7 @@ export const getOrderTickets = async (req: Request, res: Response) => {
 
 //Get All Users Ticket
 export const getMyTicket = async (req: Request, res: Response) => {
-    const userId = req.user?.id;
+    const userId = (req as any).user.id;
 
     console.log(userId);
     if (!userId) return res.status(401).json({ message: "Unauthorized" });

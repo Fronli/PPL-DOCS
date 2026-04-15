@@ -24,7 +24,7 @@ async function fetchApplyAccounts() {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        
+
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
 
         renderApply(data.accounts || []);
@@ -38,7 +38,7 @@ async function fetchApplyAccounts() {
 function renderApply(accounts) {
     const tbody = document.getElementById("applyTableBody");
     const pendingAccounts = accounts.filter(acc => acc.status === 'PENDING');
-    
+
     if (pendingAccounts.length === 0) {
         tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">No Pending Applications found.</td></tr>`;
         return;
@@ -70,39 +70,39 @@ function renderApply(accounts) {
 let pendingApproveId = null;
 let pendingRejectId = null;
 
-window.approveApply = function(id) {
+window.approveApply = function (id) {
     pendingApproveId = id;
     document.getElementById("approveModal").classList.add("active");
 }
 
-window.rejectApply = function(id) {
+window.rejectApply = function (id) {
     pendingRejectId = id;
     document.getElementById("rejectModal").classList.add("active");
 }
 
-window.closeApproveModal = function() {
+window.closeApproveModal = function () {
     pendingApproveId = null;
     document.getElementById("approveModal").classList.remove("active");
 }
 
-window.closeRejectModal = function() {
+window.closeRejectModal = function () {
     pendingRejectId = null;
     document.getElementById("rejectModal").classList.remove("active");
 }
 
-window.showNotificationModal = function(title, message, isError = false) {
+window.showNotificationModal = function (title, message, isError = false) {
     const modal = document.getElementById("notificationModal");
     const mTitle = document.getElementById("notifModalTitle");
     const mMessage = document.getElementById("notifModalMessage");
-    
+
     mTitle.textContent = title;
     mTitle.style.color = isError ? "#ef4444" : "#10b981";
     mMessage.textContent = message;
-    
+
     modal.classList.add("active");
 }
 
-window.closeNotificationModal = function() {
+window.closeNotificationModal = function () {
     document.getElementById("notificationModal").classList.remove("active");
 }
 
@@ -112,7 +112,7 @@ if (confirmApproveBtn) {
         if (!pendingApproveId) return;
         const id = pendingApproveId;
         window.closeApproveModal();
-        
+
         const token = localStorage.getItem("token");
         try {
             const res = await fetch(`/admin/dashboard/apply/${id}/approve`, {
@@ -121,7 +121,7 @@ if (confirmApproveBtn) {
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.message || 'Failed to approve application');
-            
+
             showNotificationModal("Approved", "Application approved successfully.");
             fetchApplyAccounts();
             fetchEOAccounts();
@@ -138,7 +138,7 @@ if (confirmRejectBtn) {
         if (!pendingRejectId) return;
         const id = pendingRejectId;
         window.closeRejectModal();
-        
+
         const token = localStorage.getItem("token");
         try {
             const res = await fetch(`/admin/dashboard/apply/${id}/reject`, {
@@ -147,7 +147,7 @@ if (confirmRejectBtn) {
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.message || 'Failed to reject application');
-            
+
             showNotificationModal("Rejected", "Application rejected.");
             fetchApplyAccounts();
         } catch (e) {
@@ -168,11 +168,11 @@ async function fetchEOAccounts() {
     try {
         tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>`;
 
-        const res = await fetch(`http://localhost:3000/admin/dashboard/accounts/eo?page=${eoPage}`, {
+        const res = await fetch(`/admin/dashboard/accounts/eo?page=${eoPage}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        
+
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
 
         renderEO(data.accounts || []);
@@ -191,7 +191,7 @@ function renderEO(accounts) {
     }
 
     tbody.innerHTML = accounts.map(acc => {
-        const dateStr = new Date(acc.createdAt).toLocaleDateString('en-US', {month: 'short', day: '2-digit', year: 'numeric'});
+        const dateStr = new Date(acc.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
         return `
         <tr>
             <td>
@@ -219,12 +219,12 @@ async function fetchUserAccounts() {
     }
     try {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Loading...</td></tr>`;
-        
-        const res = await fetch(`http://localhost:3000/admin/dashboard/accounts/user?page=${userPage}`, {
+
+        const res = await fetch(`/admin/dashboard/accounts/user?page=${userPage}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        
+
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
 
         renderUsers(data.accounts || []);
@@ -265,12 +265,12 @@ async function fetchEvents() {
     }
     try {
         tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;">Loading...</td></tr>`;
-        
-        const res = await fetch(`http://localhost:3000/admin/dashboard/events?page=${eventPage}`, {
+
+        const res = await fetch(`/admin/dashboard/events?page=${eventPage}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        
+
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
 
         renderEvents(data.events || []);
@@ -291,7 +291,7 @@ function renderEvents(events) {
     tbody.innerHTML = events.map(evt => {
         // Calculate total available tickets by summing the quota of each ticketType returned by the backend
         const totalAvailable = (evt.ticketTypes || []).reduce((sum, ticket) => sum + (ticket.quota || 0), 0);
-        
+
         return `
         <tr>
             <td>
@@ -311,12 +311,12 @@ function renderEvents(events) {
 /* ─── Deactivate Event ─── */
 let pendingDeactivateId = null;
 
-window.takeDownEvent = function(id) {
+window.takeDownEvent = function (id) {
     pendingDeactivateId = id;
     document.getElementById("deactivateModal").classList.add("active");
 }
 
-window.closeDeactivateModal = function() {
+window.closeDeactivateModal = function () {
     pendingDeactivateId = null;
     document.getElementById("deactivateModal").classList.remove("active");
 }
@@ -326,19 +326,19 @@ if (confirmDeactivateBtn) {
     confirmDeactivateBtn.addEventListener("click", async () => {
         if (!pendingDeactivateId) return;
         const id = pendingDeactivateId;
-        
+
         window.closeDeactivateModal();
 
         const token = localStorage.getItem("token");
         try {
-            const res = await fetch(`http://localhost:3000/admin/dashboard/events/${id}/deactivate`, {
+            const res = await fetch(`/admin/dashboard/events/${id}/deactivate`, {
                 method: 'PATCH',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
-            
+
             if (!res.ok) throw new Error(data.message || 'Failed to deactivate event');
-            
+
             // Refresh the events table
             fetchEvents();
 
@@ -353,20 +353,20 @@ function updatePaginationInfo(type, currentPage, totalPages, totalItems, itemLen
     const totalPagesReal = totalPages < 1 ? 1 : totalPages;
     const startRange = totalItems === 0 ? 0 : ((currentPage - 1) * limit) + 1;
     const endRange = startRange + itemLength - (totalItems === 0 ? 0 : 1);
-    
+
     let typeLabel = 'Users';
     if (type === 'eo') typeLabel = 'Organizers';
     if (type === 'event') typeLabel = 'Events';
     if (type === 'apply') typeLabel = 'Applications';
-    
+
     document.getElementById(`${type}PagInfo`).textContent = `Showing ${startRange}-${endRange} of ${totalItems} ${typeLabel}`;
-    
+
     const prevBtn = document.getElementById(`${type}PrevBtn`);
     const nextBtn = document.getElementById(`${type}NextBtn`);
-    
+
     prevBtn.disabled = currentPage <= 1;
     nextBtn.disabled = currentPage >= totalPagesReal;
-    
+
     prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
     nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
 
@@ -392,13 +392,13 @@ function updatePaginationInfo(type, currentPage, totalPages, totalItems, itemLen
 let pendingDeleteId = null;
 let pendingDeleteType = null;
 
-window.deleteAccount = function(id, type) {
+window.deleteAccount = function (id, type) {
     pendingDeleteId = id;
     pendingDeleteType = type;
     document.getElementById("deleteModal").classList.add("active");
 }
 
-window.closeDeleteModal = function() {
+window.closeDeleteModal = function () {
     pendingDeleteId = null;
     pendingDeleteType = null;
     document.getElementById("deleteModal").classList.remove("active");
@@ -410,19 +410,19 @@ if (confirmDeleteBtn) {
         if (!pendingDeleteId) return;
         const id = pendingDeleteId;
         const type = pendingDeleteType;
-        
+
         window.closeDeleteModal();
-        
+
         const token = localStorage.getItem("token");
         try {
-            const res = await fetch(`http://localhost:3000/admin/dashboard/accounts/${id}`, {
+            const res = await fetch(`admin/dashboard/accounts/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
-            
+
             if (!res.ok) throw new Error(data.message || 'Failed to delete');
-            
+
             if (type === 'eo') fetchEOAccounts();
             else fetchUserAccounts();
 
@@ -471,7 +471,7 @@ function checkAuth() {
     }
 }
 
-window.toggleDropdown = function(e) {
+window.toggleDropdown = function (e) {
     e.stopPropagation();
     const menu = document.getElementById("userDropdown");
     if (menu) menu.style.display = menu.style.display === "none" ? "block" : "none";
@@ -482,8 +482,8 @@ document.addEventListener("click", () => {
     if (menu) menu.style.display = "none";
 });
 
-window.logout = function(e) {
-    if(e) e.preventDefault();
+window.logout = function (e) {
+    if (e) e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("email");

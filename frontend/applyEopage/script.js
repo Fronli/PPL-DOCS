@@ -63,7 +63,7 @@ function setupForm() {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
-        
+
         if (!token) {
             alert("You must be logged in to apply as an Event Organizer!");
             window.location.href = "/auth/login";
@@ -112,18 +112,18 @@ function showModal(title, message, isSuccess) {
     const modal = document.getElementById("notificationModal");
     const mTitle = document.getElementById("modalTitle");
     const mMessage = document.getElementById("modalMessage");
-    
+
     mTitle.textContent = title;
     mTitle.style.color = isSuccess ? "#10b981" : "#ef4444";
     mMessage.textContent = message;
-    
+
     // Store whether we should redirect on close
     modal.dataset.redirect = isSuccess ? "true" : "false";
-    
+
     modal.classList.add("active");
 }
 
-window.closeModalAndRedirect = function() {
+window.closeModalAndRedirect = function () {
     const modal = document.getElementById("notificationModal");
     modal.classList.remove("active");
     if (modal.dataset.redirect === "true") {

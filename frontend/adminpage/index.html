@@ -132,7 +132,7 @@
                     <div class="tab pointer active">Users</div>
                 </div>
 
-                <div class="table-container">
+                <div class="table-container" style="margin-bottom: 2rem;">
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -151,6 +151,34 @@
                         <div class="pag-controls">
                             <button class="btn-pag" id="userPrevBtn">Prev</button>
                             <button class="btn-pag" id="userNextBtn">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newest Transactions Section -->
+                <div class="ecosystem-controls">
+                    <div class="tab pointer active">Newest Transactions</div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ORDER ID</th>
+                                <th>USER</th>
+                                <th>EVENT / TICKET INFO</th>
+                                <th>TOTAL AMOUNT</th>
+                                <th style="text-align: right;">STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <span class="pag-info" id="transactionPagInfo">Showing 0-0 of 0 Transactions</span>
+                        <div class="pag-controls">
+                            <button class="btn-pag" id="transactionPrevBtn">Prev</button>
+                            <button class="btn-pag" id="transactionNextBtn">Next</button>
                         </div>
                     </div>
                 </div>

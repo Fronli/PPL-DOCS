@@ -371,3 +371,9 @@ body {
 .notification-box.success {
 	background: #10b981;
 }
+
+.notif-icon {
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+}

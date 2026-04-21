@@ -46,6 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			submitBtn.disabled = true;
 			submitBtn.textContent = "Loading...";
 
+			if (password.length < 8) {
+				showNotification("Password minimal harus 8 karakter.", "error");
+				submitBtn.disabled = false;
+				submitBtn.textContent = originalText;
+				return;
+			}
+
 			try {
 				const endpoint = "/auth/signup";
 
@@ -65,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 						window.location.href = "/auth/login"; // Redirect ke halaman login
 					}, 1500);
 				} else {
-					showNotification(data.message || "Invalid. Gagal mendaftar.", "error");
+					showNotification(data.error || data.message || "Invalid. Gagal mendaftar.", "error");
 				}
 			} catch (error) {
 				console.error("Signup Error:", error);

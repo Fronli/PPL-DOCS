@@ -157,6 +157,35 @@ export const getAdminDashboard_Events = async (req: Request, res: Response) => {
     }
 }
 
+export const getAdminDashboard_Transactions = async (req: Request, res: Response) => {
+    try {
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = 5;
+        const skip = (page - 1) * limit;
+
+        const transactions = await prisma.order.findMany({
+            skip: skip,
+            take: limit,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    select: { name: true, email: true }
+                },
+                tickets: {
+                    include: {
+                         event: { select: { title: true } }
+                    }
+                }
+            }
+        });
+
+        const total = await prisma.order.count();
+        res.json({ transactions, total, page, totalPages: Math.ceil(total / limit) });
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 export const deleteAccount = async (req: Request, res: Response) => {
     try {

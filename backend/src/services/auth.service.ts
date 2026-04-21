@@ -33,6 +33,11 @@ export const AuthServices = {
     },
 
     async createUser(email: string, password: string, name: string){
+        const existingUser = await prisma.user.findUnique({ where: { email } });
+        if (existingUser) {
+            throw new Error("Email sudah terdaftar. Silakan gunakan email lain.");
+        }
+        
         const hashedPassword = await brcypt.hash(password, 10); 
         return prisma.user.create({
             data: {

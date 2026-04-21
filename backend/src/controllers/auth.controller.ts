@@ -23,7 +23,7 @@ export  const register = async (req: Request, res: Response) => {
     console.log(password);
 
     try{
-      const newUser = AuthServices.createUser(email, password, name);
+      const newUser = await AuthServices.createUser(email, password, name);
 
       res.status(201).json({
             message: "User berhasil dibuat!",

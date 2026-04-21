@@ -82,7 +82,7 @@ function setupForm() {
         submitBtn.disabled = true;
 
         try {
-            const res = await fetch("http://localhost:3000/eo/apply", {
+            const res = await fetch("/eo/apply", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

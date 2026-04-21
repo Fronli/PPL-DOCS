@@ -4,12 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchEOAccounts();
     fetchUserAccounts();
     fetchEvents();
+    fetchTransactions();
 });
 
 let applyPage = 1;
 let eoPage = 1;
 let userPage = 1;
 let eventPage = 1;
+let transactionPage = 1;
 
 /* ─── Fetch Apply Accounts ─── */
 async function fetchApplyAccounts() {
@@ -254,6 +256,66 @@ function renderUsers(accounts) {
     `}).join('');
 }
 
+/* ─── Fetch Transactions ─── */
+async function fetchTransactions() {
+    const tbody = document.getElementById("transactionTableBody");
+    const token = localStorage.getItem("token");
+    if (!token) {
+        tbody.innerHTML = ``;
+        return;
+    }
+    try {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Loading...</td></tr>`;
+
+        const res = await fetch(`/admin/dashboard/transactions?page=${transactionPage}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || 'Failed to fetch transactions');
+
+        renderTransactions(data.transactions || []);
+        updatePaginationInfo('transaction', data.page, data.totalPages, data.total, data.transactions.length, 5);
+    } catch (e) {
+        console.error(e);
+        document.getElementById("transactionTableBody").innerHTML = `<tr><td colspan="5" style="text-align:center; color: red;">${e.message}</td></tr>`;
+    }
+}
+
+function renderTransactions(transactions) {
+    const tbody = document.getElementById("transactionTableBody");
+    if (transactions.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">No Transactions found.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = transactions.map(trx => {
+        const ticketCount = trx.tickets ? trx.tickets.length : 0;
+        const evtTitle = (trx.tickets && trx.tickets.length > 0 && trx.tickets[0].event) ? trx.tickets[0].event.title : 'Deleted Event';
+        
+        return `
+        <tr>
+            <td class="cell-title">#INV-${trx.id.toString().padStart(6, '0')}</td>
+            <td>
+                <div class="cell-stack">
+                    <span class="cell-title">${trx.user ? trx.user.name : 'Unknown User'}</span>
+                    <span class="cell-sub">${trx.user ? trx.user.email : ''}</span>
+                </div>
+            </td>
+            <td>
+                <div class="cell-stack">
+                    <span class="cell-title">${evtTitle}</span>
+                    <span class="cell-sub">${ticketCount}x Tickets</span>
+                </div>
+            </td>
+            <td class="note" style="font-weight: 700;">Rp ${trx.total.toLocaleString()}</td>
+            <td style="text-align: right;">
+                <span class="badge ${trx.status === 'PAID' ? 'blue' : (trx.status === 'PENDING' ? 'yellow' : 'red')}">${trx.status}</span>
+            </td>
+        </tr>
+    `}).join('');
+}
+
 /* ─── Fetch Events ─── */
 async function fetchEvents() {
     const tbody = document.getElementById("eventTableBody");
@@ -358,6 +420,7 @@ function updatePaginationInfo(type, currentPage, totalPages, totalItems, itemLen
     if (type === 'eo') typeLabel = 'Organizers';
     if (type === 'event') typeLabel = 'Events';
     if (type === 'apply') typeLabel = 'Applications';
+    if (type === 'transaction') typeLabel = 'Transactions';
 
     document.getElementById(`${type}PagInfo`).textContent = `Showing ${startRange}-${endRange} of ${totalItems} ${typeLabel}`;
 
@@ -376,6 +439,7 @@ function updatePaginationInfo(type, currentPage, totalPages, totalItems, itemLen
             else if (type === 'user') { userPage--; fetchUserAccounts(); }
             else if (type === 'event') { eventPage--; fetchEvents(); }
             else if (type === 'apply') { applyPage--; fetchApplyAccounts(); }
+            else if (type === 'transaction') { transactionPage--; fetchTransactions(); }
         }
     };
     nextBtn.onclick = () => {
@@ -384,6 +448,7 @@ function updatePaginationInfo(type, currentPage, totalPages, totalItems, itemLen
             else if (type === 'user') { userPage++; fetchUserAccounts(); }
             else if (type === 'event') { eventPage++; fetchEvents(); }
             else if (type === 'apply') { applyPage++; fetchApplyAccounts(); }
+            else if (type === 'transaction') { transactionPage++; fetchTransactions(); }
         }
     };
 }
@@ -415,7 +480,7 @@ if (confirmDeleteBtn) {
 
         const token = localStorage.getItem("token");
         try {
-            const res = await fetch(`admin/dashboard/accounts/${id}`, {
+            const res = await fetch(`/admin/dashboard/accounts/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

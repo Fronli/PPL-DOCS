@@ -222,7 +222,7 @@ async function fetchDashboardEvents() {
             
             events.forEach(event => {
                 const badgeClass = event.isPublished ? 'live' : 'draft';
-                const badgeText = event.isPublished ? 'LIVE' : 'DRAFTING';
+                const badgeText = event.isPublished ? 'LIVE' : 'Deactivated';
                 
                 const eventName = event.title || 'Untitled Event';
                 const eventCategory = event.category || '-';
